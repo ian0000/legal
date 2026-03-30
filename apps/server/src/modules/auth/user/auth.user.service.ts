@@ -6,28 +6,14 @@ import User, {
   UpdateUserDTO,
   UserDocument,
 } from "../../../models/User";
-import { checkPassword, hashPassword } from "../../../utils/auth";
+import { checkPassword, createSendTokenUser, hashPassword } from "../../../utils/auth";
 import { generateJWT } from "../../../utils/jwt";
-import { generateToken } from "../../../utils/token";
+import { generateToken, tempPassword } from "../../../utils/token";
 import { AuthEmail } from "../auth.email.service";
 import { CreateError } from "../../../utils/CreateError";
 
-const createSendToken = async (user: UserDocument): Promise<void> => {
-  const token = new Token({
-    token: generateToken(),
-    user: user._id,
-  });
-  await token.save();
-
-  await AuthEmail.sendConfirmationEmail({
-    email: user.email,
-    name: user.name,
-    token: token.token,
-  });
-};
-
 export const createAccount = async (data: CreateUserDTO) => {
-  const { email, password } = data;
+  const { email } = data;
 
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -35,10 +21,11 @@ export const createAccount = async (data: CreateUserDTO) => {
   }
 
   const user = new User(data);
-  user.password = await hashPassword(password);
+
+  user.password = await hashPassword(tempPassword);
 
   await user.save();
-  await createSendToken(user);
+  await createSendTokenUser(user);
 };
 
 export const confirmAccount = async (token: string) => {
@@ -62,7 +49,7 @@ export const login = async (email: string, password: string) => {
     throw CreateError("Usuario no encontrado", 404);
   }
   if (!user.isConfirmed) {
-    await createSendToken(user);
+    await createSendTokenUser(user);
     throw CreateError("Cuenta no confirmada, se envio un correo con el token", 401);
   }
   if (!user.isActive) {
@@ -83,7 +70,7 @@ export const requestConfirmationCode = async (email: string) => {
   if (user.isConfirmed) {
     throw CreateError("Cuenta ya confirmada", 409);
   }
-  await createSendToken(user);
+  await createSendTokenUser(user);
 };
 
 export const forgotPassword = async (email: string) => {

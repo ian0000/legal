@@ -1,17 +1,36 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { HydratedDocument, Schema } from "mongoose";
 
-export interface IClient {
+export interface Client {
   name: string;
   email: string;
-  password: string;
-  phone: string;
-  address: string;
+  password?: string;
+  phone?: string;
+  address?: string;
   nationalId: string;
   isConfirmed: boolean;
   isActive: boolean;
+  lastAccessRequest: Date;
 }
 
-const clientSchema = new Schema<IClient>(
+export interface CreateClientDTO {
+  name: string;
+  nationalId: string;
+  phone?: string;
+  address?: string;
+  email?: string;
+}
+
+export interface ActivateClientLoginDTO {
+  email: string;
+  password: string;
+}
+
+export interface ClientLoginDTO {
+  email: string;
+  password: string;
+}
+
+const clientSchema = new Schema<Client>(
   {
     name: {
       type: String,
@@ -24,7 +43,7 @@ const clientSchema = new Schema<IClient>(
     },
     password: {
       type: String,
-      required: true,
+      select: false,
     },
     phone: {
       type: String,
@@ -47,10 +66,14 @@ const clientSchema = new Schema<IClient>(
       type: Boolean,
       default: true,
     },
+    lastAccessRequest: {
+      type: Date,
+    },
   },
   { timestamps: true },
 );
 
-const Client = mongoose.model<IClient>("Client", clientSchema);
+const Client = mongoose.model<Client>("Client", clientSchema);
 
+export type ClientDocument = HydratedDocument<Client>;
 export default Client;

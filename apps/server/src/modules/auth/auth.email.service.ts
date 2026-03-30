@@ -68,4 +68,50 @@ export class AuthEmail {
       throw new AppError("Error enviando email de recuperación", 500);
     }
   }
+  static async sendTemporaryPasswordEmail(user: IEmail): Promise<void> {
+    try {
+      await resend.emails.send({
+        from: "LegalApp <no-reply@resend.dev>",
+        to: user.email,
+        subject: "Acceso a tu cuenta - LegalApp",
+        html: `
+        <div style="font-family: Arial, sans-serif;">
+          <h2>Hola ${user.name}</h2>
+
+          <p>Se ha solicitado acceso a tu cuenta en <strong>LegalApp</strong>.</p>
+
+          <p>Tu clave temporal es:</p>
+          <h1 style="letter-spacing: 2px;">${user.token}</h1>
+
+          <p>Esta clave es válida por <strong>15 minutos</strong>.</p>
+
+          <p>Por seguridad, deberás cambiarla después de iniciar sesión.</p>
+
+          <br/>
+
+          <a href="${FRONTEND_URL}/login"
+             style="
+               display: inline-block;
+               padding: 10px 20px;
+               background-color: #000;
+               color: #fff;
+               text-decoration: none;
+               border-radius: 5px;
+             ">
+             Ir a iniciar sesión
+          </a>
+
+          <br/><br/>
+
+          <small>
+            Si no solicitaste este acceso, puedes ignorar este mensaje.
+          </small>
+        </div>
+      `,
+      });
+    } catch (error) {
+      console.error("Error enviando email de acceso:", error);
+      throw new AppError("Error enviando email de acceso", 500);
+    }
+  }
 }
