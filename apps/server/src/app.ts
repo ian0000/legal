@@ -3,8 +3,6 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import authUserRoutes from "./modules/auth/auth.user.routes";
-import clientRoutes from "./modules/clients/clients.routes";
-import caseRoutes from "./modules/cases/cases.routes";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 
@@ -21,8 +19,6 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/auth", authUserRoutes);
-app.use("/api/client", clientRoutes);
-app.use("/api/cases", caseRoutes);
 
 // 🔹 Error handler (MUY importante)
 app.use((err: any, _req: any, res: any, _next: any) => {
