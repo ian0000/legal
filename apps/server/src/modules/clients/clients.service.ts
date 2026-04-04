@@ -1,8 +1,8 @@
-import Case from "@/models/Case";
-import Client from "@/models/Client";
-import { checkPassword, createSendTokenClient } from "@/utils/auth";
-import { generateJWT } from "@/utils/jwt";
-import { tempPassword } from "@/utils/token";
+import Case from "../../models/Case";
+import Client from "../../models/Client";
+import { checkPassword, createSendTokenClient, hashPassword } from "../../utils/auth";
+import { generateJWT } from "../../utils/jwt";
+import { tempPassword } from "../../utils/token";
 import { USER_ROLES } from "@legal/shared/types/roles";
 
 export const getCasesByNationalId = async (nationalId: string) => {
@@ -78,4 +78,19 @@ export const requestAccess = async (email: string) => {
   console.log("Clave temporal:", tempPassword);
 
   return { message: "Clave enviada al correo" };
+};
+export const changePassword = async (id: string, currentPassword: string, newPassword: string) => {
+  const client = await Client.findById(id);
+
+  if (!client) throw new Error("Cliente no encontrado");
+
+  const match = await checkPassword(currentPassword, client.password!);
+  if (!match) throw new Error("Contraseña actual incorrecta");
+
+  const hashed = await hashPassword(newPassword);
+  client.password = hashed;
+
+  await client.save();
+
+  return { message: "Contraseña actualizada" };
 };

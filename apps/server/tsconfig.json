@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "rootDir": "./src",
     "target": "ESNext",
@@ -9,6 +10,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": "./src",
+    "types": ["jest", "node"],
 
     "paths": {
       "@/*": ["*"]

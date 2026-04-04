@@ -1,16 +1,15 @@
-import Token from "../../../models/Token";
 import User, {
   CreateUserDTO,
   UpdatePasswordDTO,
   UpdateUserByOwnerDTO,
   UpdateUserDTO,
-  UserDocument,
-} from "../../../models/User";
-import { checkPassword, createSendTokenUser, hashPassword } from "../../../utils/auth";
-import { generateJWT } from "../../../utils/jwt";
-import { generateToken, tempPassword } from "../../../utils/token";
-import { AuthEmail } from "../auth.email.service";
-import { CreateError } from "../../../utils/CreateError";
+} from "../../models/User";
+import { checkPassword, createSendTokenUser, hashPassword } from "../../utils/auth";
+import { generateJWT } from "../../utils/jwt";
+import { generateToken, tempPassword } from "../../utils/token";
+import { CreateError } from "../../utils/CreateError";
+import { AuthEmail } from "./auth.email.service";
+import Token from "../../models/Token";
 
 export const createAccount = async (data: CreateUserDTO) => {
   const { email } = data;

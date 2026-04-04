@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as authService from "./auth.user.service";
-import { AppError } from "../../../utils/AppError";
+import { AppError } from "../../utils/AppError";
 
 export const createAccount = async (req: Request, res: Response, next: NextFunction) => {
   try {

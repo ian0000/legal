@@ -11,6 +11,7 @@ type JwtPayload = {
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log("Autenticando usuario...");
     // 1️⃣ Verificar header
     const authHeader = req.headers.authorization;
 

@@ -1,9 +1,9 @@
-import Token from "@/models/Token";
-import { UserDocument } from "@/models/User";
+import Token from "../models/Token";
+import { UserDocument } from "../models/User";
 import bcrypt from "bcrypt";
 import { generateToken, tempPassword } from "./token";
-import { AuthEmail } from "@/modules/auth/auth.email.service";
-import { ClientDocument } from "@/models/Client";
+import { AuthEmail } from "../modules/auth/auth.email.service";
+import { ClientDocument } from "../models/Client";
 
 export const hashPassword = async (password: string) => {
   const salt = await bcrypt.genSalt(10);
