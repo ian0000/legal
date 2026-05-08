@@ -1,35 +1,62 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 
-export interface INote {
+export interface Note {
+  caseId: Types.ObjectId;
+
+  stageId?: Types.ObjectId;
+
+  userId: Types.ObjectId;
+
   content: string;
-  authorType: "User" | "Client";
-  author: Types.ObjectId;
+
   visibleToClient: boolean;
+
+  attachments?: string[];
 }
 
-const noteSchema = new Schema<INote>(
+const NoteSchema = new Schema<Note>(
   {
+    caseId: {
+      type: Schema.Types.ObjectId,
+      ref: "Case",
+      required: true,
+      index: true,
+    },
+
+    stageId: {
+      type: Schema.Types.ObjectId,
+      ref: "CaseStage",
+    },
+
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
     content: {
       type: String,
       required: true,
     },
-    authorType: {
-      type: String,
-      enum: ["User", "Client"],
-      required: true,
-    },
-    author: {
-      type: Schema.Types.ObjectId,
-      required: true,
-    },
+
     visibleToClient: {
       type: Boolean,
       default: false,
     },
+
+    attachments: [
+      {
+        type: String,
+      },
+    ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-const Note = mongoose.model<INote>("Note", noteSchema);
+const Note = mongoose.model<Note>("Note", NoteSchema);
+
+export type NoteDocument = HydratedDocument<Note>;
 
 export default Note;

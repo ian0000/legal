@@ -1,4 +1,4 @@
-import { USER_ROLES, UserRole } from "@legal/shared/types/roles";
+import { USER_ROLES, UserRole } from "@legal/shared/src/types/roles";
 
 export const PERMISSIONS: Record<string, UserRole[]> = {
   UPDATE_USER: [USER_ROLES.OWNER],

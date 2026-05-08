@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "rootDir": "./src",
     "target": "ESNext",
@@ -9,12 +8,8 @@
     "strict": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "baseUrl": "./src",
     "types": ["jest", "node"],
-
-    "paths": {
-      "@/*": ["*"]
-    }
+    "isolatedModules": true
   },
   "files": ["src/types/express.d.ts"],
   "include": ["src"]

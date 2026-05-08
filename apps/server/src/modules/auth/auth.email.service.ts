@@ -4,7 +4,8 @@ import { env } from "../../config/env";
 
 interface IEmail {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   token: string;
 }
 
@@ -28,7 +29,7 @@ export class AuthEmail {
         to: user.email,
         subject: "Confirma tu cuenta",
         html: `
-          <h2>Hola ${user.name}</h2>
+          <h2>Hola ${user.lastName}</h2>
           <p>Gracias por registrarte.</p>
           <p>Usa el siguiente código para confirmar tu cuenta:</p>
           <h3>${user.token}</h3>
@@ -52,7 +53,7 @@ export class AuthEmail {
         to: user.email,
         subject: "Restablece tu contraseña",
         html: `
-          <h2>Hola ${user.name}</h2>
+          <h2>Hola ${user.lastName}</h2>
           <p>Recibimos una solicitud para restablecer tu contraseña.</p>
           <p>Usa el siguiente código:</p>
           <h3>${user.token}</h3>
@@ -76,7 +77,7 @@ export class AuthEmail {
         subject: "Acceso a tu cuenta - LegalApp",
         html: `
         <div style="font-family: Arial, sans-serif;">
-          <h2>Hola ${user.name}</h2>
+          <h2>Hola ${user.lastName}</h2>
 
           <p>Se ha solicitado acceso a tu cuenta en <strong>LegalApp</strong>.</p>
 

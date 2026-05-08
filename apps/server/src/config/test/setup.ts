@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { connectDB, disconnectDB } from "../db";
 
-dotenv.config({ path: ".env.test" });
+jest.setTimeout(30000);
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.DATABASE_URL!);
+  await connectDB();
 });
 
 beforeEach(async () => {
@@ -16,5 +16,5 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
+  await disconnectDB();
 });

@@ -1,177 +1,300 @@
-import User, {
-  CreateUserDTO,
-  UpdatePasswordDTO,
-  UpdateUserByOwnerDTO,
-  UpdateUserDTO,
-} from "../../models/User";
-import { checkPassword, createSendTokenUser, hashPassword } from "../../utils/auth";
-import { generateJWT } from "../../utils/jwt";
-import { generateToken, tempPassword } from "../../utils/token";
-import { CreateError } from "../../utils/CreateError";
+import User from "../../models/User";
+
 import { AuthEmail } from "./auth.email.service";
-import Token from "../../models/Token";
 
-export const createAccount = async (data: CreateUserDTO) => {
-  const { email } = data;
+import { CreateError } from "../../utils/CreateError";
 
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    throw CreateError("El usuario ya esta registrado", 409);
+import { hashPassword, checkPassword } from "../../utils/auth";
+
+import {
+  createVerificationToken,
+  validateVerificationToken as validateVerificationTokenUtil,
+} from "../../utils/verification-token";
+
+import { generateJWT } from "../../utils/jwt";
+import { TOKEN_TYPES } from "@legal/shared/src/types/roles";
+
+interface CreateAccountInput {
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface UpdateProfileInput {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+}
+
+interface UpdatePasswordInput {
+  currentPassword: string;
+  newPassword: string;
+}
+
+// =====================================
+// CREATE ACCOUNT
+// =====================================
+
+export const createAccount = async (data: CreateAccountInput) => {
+  const existingUser = await User.findOne({
+    email: data.email,
+  });
+
+  if (existingUser) {
+    throw CreateError("El usuario ya está registrado", 409);
   }
 
-  const user = new User(data);
+  const user = await User.create({
+    email: data.email,
+    firstName: data.firstName,
+    lastName: data.lastName,
 
-  user.password = await hashPassword(tempPassword);
+    isConfirmed: false,
+    isActive: true,
+  });
 
-  await user.save();
-  await createSendTokenUser(user);
+  const verification = await createVerificationToken(
+    user._id.toString(),
+    TOKEN_TYPES.ACCOUNT_SETUP,
+  );
+
+  await AuthEmail.sendConfirmationEmail({
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    token: verification.rawToken,
+  });
+
+  return user;
 };
 
-export const confirmAccount = async (token: string) => {
-  const tokenExists = await Token.findOne({ token });
-  if (!tokenExists) {
-    throw CreateError("Token no valido", 404);
-  }
+// =====================================
+// SETUP ACCOUNT
+// =====================================
 
-  const user = await User.findById(tokenExists.user);
+export const setupAccount = async (token: string, password: string) => {
+  const verification = await validateVerificationToken(token, TOKEN_TYPES.ACCOUNT_SETUP);
+
+  const user = await User.findById(verification.user);
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
+
+  user.password = await hashPassword(password);
 
   user.isConfirmed = true;
-  await Promise.all([user.save(), tokenExists.deleteOne()]);
+
+  await user.save();
+
+  verification.usedAt = new Date();
+
+  await verification.save();
+
+  return user;
 };
+
+// =====================================
+// LOGIN
+// =====================================
 
 export const login = async (email: string, password: string) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({
+    email,
+  });
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
+
   if (!user.isConfirmed) {
-    await createSendTokenUser(user);
-    throw CreateError("Cuenta no confirmada, se envio un correo con el token", 401);
+    throw CreateError("Cuenta no confirmada", 401);
   }
+
   if (!user.isActive) {
-    throw CreateError("Cuenta inactiva, contacta al administrador", 403);
+    throw CreateError("Cuenta inactiva", 403);
   }
-  const isMatch = await checkPassword(password, user.password);
-  if (!isMatch) {
+
+  const isPasswordCorrect = await checkPassword(password, user.password);
+
+  if (!isPasswordCorrect) {
     throw CreateError("Contraseña incorrecta", 401);
   }
-  return generateJWT({ id: user._id, role: user.role });
+
+  const accessToken = generateJWT({
+    id: user._id.toString(),
+    role: user.role,
+  });
+
+  return {
+    accessToken,
+
+    user: {
+      id: user._id.toString(),
+
+      firstName: user.firstName,
+
+      lastName: user.lastName,
+
+      email: user.email,
+
+      role: user.role,
+    },
+  };
 };
+
+// =====================================
+// REQUEST CONFIRMATION CODE
+// =====================================
 
 export const requestConfirmationCode = async (email: string) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({
+    email,
+  });
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
+
   if (user.isConfirmed) {
-    throw CreateError("Cuenta ya confirmada", 409);
+    throw CreateError("Cuenta ya confirmada", 400);
   }
-  await createSendTokenUser(user);
+
+  const verification = await createVerificationToken(
+    user._id.toString(),
+    TOKEN_TYPES.EMAIL_CONFIRMATION,
+  );
+
+  await AuthEmail.sendConfirmationEmail({
+    email: user.email,
+
+    firstName: user.firstName,
+
+    lastName: user.lastName,
+
+    token: verification.rawToken,
+  });
 };
 
+// =====================================
+// FORGOT PASSWORD
+// =====================================
+
 export const forgotPassword = async (email: string) => {
-  const user = await User.findOne({ email });
+  const user = await User.findOne({
+    email,
+  });
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
-  const token = new Token({
-    token: generateToken(),
-    user: user._id,
-  });
+
+  const verification = await createVerificationToken(
+    user._id.toString(),
+    TOKEN_TYPES.PASSWORD_RESET,
+  );
 
   await AuthEmail.sendPasswordResetToken({
     email: user.email,
-    name: user.name,
-    token: token.token,
+
+    firstName: user.firstName,
+
+    lastName: user.lastName,
+
+    token: verification.rawToken,
   });
-  await token.save();
 };
+// =====================================
+// UPDATE PASSWORD WITH TOKEN
+// =====================================
 
-export const validateToken = async (token: string) => {
-  const tokenExists = await Token.findOne({ token });
-  if (!tokenExists) {
-    throw CreateError("Token no valido", 404);
-  }
-  return tokenExists;
-};
+export const updatePasswordWithToken = async (token: string, password: string) => {
+  const verification = await validateVerificationToken(token, TOKEN_TYPES.PASSWORD_RESET);
 
-export const updatePasswordWithToken = async (token: string, newPassword: string) => {
-  const tokenExists = await Token.findOne({ token });
-  if (!tokenExists) {
-    throw CreateError("Token no valido", 404);
-  }
-  const user = await User.findById(tokenExists.user);
+  const user = await User.findById(verification.user);
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
-  user.password = await hashPassword(newPassword);
-  await Promise.all([user.save(), tokenExists.deleteOne()]);
+
+  user.password = await hashPassword(password);
+
+  await user.save();
+
+  verification.usedAt = new Date();
+
+  await verification.save();
 };
 
-export const updateProfile = async (userId: string, data: UpdateUserDTO) => {
+// =====================================
+// UPDATE PROFILE
+// =====================================
+
+export const updateProfile = async (userId: string, data: UpdateProfileInput) => {
   const user = await User.findById(userId);
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
-  if (data.email !== undefined && data.email !== user.email) {
-    const emailExists = await User.findOne({ email: data.email });
+
+  if (data.email && data.email !== user.email) {
+    const emailExists = await User.findOne({
+      email: data.email,
+    });
+
     if (emailExists) {
       throw CreateError("El email ya esta en uso", 409);
     }
+
     user.email = data.email;
   }
 
-  if (data.name !== undefined && data.name !== user.name) {
-    user.name = data.name;
+  if (data.firstName) {
+    user.firstName = data.firstName;
+  }
+
+  if (data.lastName) {
+    user.lastName = data.lastName;
   }
 
   await user.save();
-  return user;
+
+  return {
+    id: user._id.toString(),
+
+    email: user.email,
+
+    firstName: user.firstName,
+
+    lastName: user.lastName,
+
+    role: user.role,
+  };
 };
 
-export const updatePassword = async (userId: string, data: UpdatePasswordDTO) => {
+// =====================================
+// UPDATE PASSWORD
+// =====================================
+
+export const updatePassword = async (userId: string, data: UpdatePasswordInput) => {
   const user = await User.findById(userId);
+
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
   }
-  const isMatch = await checkPassword(data.currentPassword, user.password);
-  if (!isMatch) {
-    throw CreateError("Contraseña actual incorrecta", 401);
+
+  const isPasswordCorrect = await checkPassword(data.currentPassword, user.password);
+
+  if (!isPasswordCorrect) {
+    throw CreateError("Contraseña incorrecta", 401);
   }
+
   user.password = await hashPassword(data.newPassword);
-  await user.save();
-};
-
-export const updateUserByOwner = async (targetUserId: string, data: UpdateUserByOwnerDTO) => {
-  const user = await User.findById(targetUserId);
-  if (!user) {
-    throw CreateError("Usuario no encontrado", 404);
-  }
-
-  if (data.role !== undefined && data.role !== user.role) {
-    user.role = data.role;
-  }
-
-  if (data.isActive !== undefined && data.isActive !== user.isActive) {
-    user.isActive = data.isActive;
-  }
 
   await user.save();
-  return user;
+};
+export const validateVerificationTokenService = async (token: string, type: TOKEN_TYPES) => {
+  return await validateVerificationTokenUtil(token, type);
 };
 
-//esta no deberia ir aqui, pero por ahora la dejo aqui para no crear un nuevo servicio, esta funcion se usara para validar el token en el middleware de autenticacion y obtener el usuario asociado al token
-export const findUserByToken = async (token: string) => {
-  const tokenExists = await Token.findOne({ token });
-  if (!tokenExists) {
-    throw CreateError("Token no valido", 404);
-  }
-  const user = await User.findById(tokenExists.user);
-  if (!user) {
-    throw CreateError("Usuario no encontrado", 404);
-  }
-  return user;
-};
+export const validateVerificationToken = validateVerificationTokenService;

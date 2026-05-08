@@ -15,63 +15,204 @@ describe("Auth Controller", () => {
     jest.clearAllMocks();
   });
 
-  it("createAccount success", async () => {
-    const req: any = { body: {} };
+  describe("createAccount", () => {
+    it("should create account", async () => {
+      const req: any = {
+        body: {
+          email: "test@test.com",
+        },
+      };
 
-    await controller.createAccount(req, res, next);
+      await controller.createAccount(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(201);
+      expect(authService.createAccount).toHaveBeenCalledWith(req.body);
+
+      expect(res.status).toHaveBeenCalledWith(201);
+
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Cuenta creada exitosamente",
+      });
+    });
+
+    it("should call next on error", async () => {
+      const error = new Error("fail");
+
+      (authService.createAccount as jest.Mock).mockRejectedValue(error);
+
+      const req: any = {
+        body: {},
+      };
+
+      await controller.createAccount(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+    });
   });
 
-  it("createAccount error", async () => {
-    (authService.createAccount as jest.Mock).mockRejectedValue(new Error());
+  describe("setupAccount", () => {
+    it("should setup account", async () => {
+      const req: any = {
+        body: {
+          token: "token",
+          password: "123456",
+        },
+      };
 
-    await controller.createAccount({} as any, res, next);
+      await controller.setupAccount(req, res, next);
 
-    expect(next).toHaveBeenCalled();
+      expect(authService.setupAccount).toHaveBeenCalledWith("token", "123456");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
   });
 
-  it("login success", async () => {
-    (authService.login as jest.Mock).mockResolvedValue("token");
+  describe("login", () => {
+    it("should login correctly", async () => {
+      (authService.login as jest.Mock).mockResolvedValue({
+        accessToken: "jwt",
+        user: {
+          id: "1",
+        },
+      });
 
-    const req: any = { body: { email: "a", password: "b" } };
+      const req: any = {
+        body: {
+          email: "test@test.com",
+          password: "123456",
+        },
+      };
 
-    await controller.login(req, res, next);
+      await controller.login(req, res, next);
 
-    expect(res.json).toHaveBeenCalledWith({ token: "token" });
+      expect(authService.login).toHaveBeenCalledWith("test@test.com", "123456");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
   });
 
-  it("confirmAccount", async () => {
-    const req: any = { body: { token: "a" } };
+  describe("requestConfirmationCode", () => {
+    it("should resend confirmation", async () => {
+      const req: any = {
+        body: {
+          email: "test@test.com",
+        },
+      };
 
-    await controller.confirmAccount(req, res, next);
+      await controller.requestConfirmationCode(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+      expect(authService.requestConfirmationCode).toHaveBeenCalledWith("test@test.com");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
   });
 
-  it("forgotPassword", async () => {
-    const req: any = { body: { email: "a" } };
+  describe("forgotPassword", () => {
+    it("should send forgot password email", async () => {
+      const req: any = {
+        body: {
+          email: "test@test.com",
+        },
+      };
 
-    await controller.forgotPassword(req, res, next);
+      await controller.forgotPassword(req, res, next);
 
-    expect(res.status).toHaveBeenCalledWith(200);
+      expect(authService.forgotPassword).toHaveBeenCalledWith("test@test.com");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
   });
 
-  it("updateProfile", async () => {
-    const req: any = { userId: "1", body: {} };
+  describe("validateToken", () => {
+    it("should validate token", async () => {
+      (authService.validateVerificationToken as jest.Mock).mockResolvedValue({
+        _id: "1",
+      });
 
-    (authService.updateProfile as jest.Mock).mockResolvedValue({});
+      const req: any = {
+        body: {
+          token: "token",
+          type: "PASSWORD_RESET",
+        },
+      };
 
-    await controller.updateProfile(req, res, next);
+      await controller.validateToken(req, res, next);
 
-    expect(res.json).toHaveBeenCalled();
+      expect(authService.validateVerificationToken).toHaveBeenCalledWith("token", "PASSWORD_RESET");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Token válido",
+      });
+    });
   });
 
-  it("updatePassword", async () => {
-    const req: any = { userId: "1", body: {} };
+  describe("updatePasswordWithToken", () => {
+    it("should update password with token", async () => {
+      const req: any = {
+        params: {
+          token: "token",
+        },
 
-    await controller.updatePassword(req, res, next);
+        body: {
+          password: "123456",
+        },
+      };
 
-    expect(res.json).toHaveBeenCalled();
+      await controller.updatePasswordWithToken(req, res, next);
+
+      expect(authService.updatePasswordWithToken).toHaveBeenCalledWith("token", "123456");
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
+  });
+
+  describe("updateProfile", () => {
+    it("should update profile", async () => {
+      (authService.updateProfile as jest.Mock).mockResolvedValue({
+        id: "1",
+      });
+
+      const req: any = {
+        user: {
+          id: "1",
+        },
+
+        body: {
+          firstName: "Ian",
+        },
+      };
+
+      await controller.updateProfile(req, res, next);
+
+      expect(authService.updateProfile).toHaveBeenCalledWith("1", req.body);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+    });
+  });
+
+  describe("updatePassword", () => {
+    it("should update password", async () => {
+      const req: any = {
+        user: {
+          id: "1",
+        },
+
+        body: {
+          currentPassword: "old",
+          newPassword: "new",
+        },
+      };
+
+      await controller.updatePassword(req, res, next);
+
+      expect(authService.updatePassword).toHaveBeenCalledWith("1", req.body);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+
+      expect(res.json).toHaveBeenCalledWith({
+        message: "Contraseña actualizada correctamente",
+      });
+    });
   });
 });

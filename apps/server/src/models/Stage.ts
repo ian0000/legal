@@ -1,104 +1,126 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import { CASE_STAGE_STATUS, CaseStageStatus } from "@legal/shared/src/types/roles";
+import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 
-export interface IStage {
-  name: string;
-  status: string;
-  estimatedHours: number;
-  actualHours: number;
-  responsibleUser: Types.ObjectId;
-  case: Types.ObjectId;
-  completedAt: Date | null;
-  completedBy: Types.ObjectId | null;
-  dueDate: Date;
-  history: {
-    action: string;
-    by: Types.ObjectId;
-    at: Date;
-  }[];
-  delegatedTo?: Types.ObjectId;
-  delegatedBy?: Types.ObjectId;
-  delegatedAt?: Date;
-  returnedToOriginalUser?: boolean;
+export interface CaseStage {
+  caseId: Types.ObjectId;
+
+  title: string;
+
+  description?: string;
+
+  order: number;
+
+  assignedTo?: Types.ObjectId;
+
+  assignedBy?: Types.ObjectId;
+
+  status: CaseStageStatus;
+
+  priority?: string;
+
+  estimatedDays?: number;
+
+  startedAt?: Date;
+
+  dueDate?: Date;
+
+  completedAt?: Date;
+
+  delayReason?: string;
+
+  dependsOn?: Types.ObjectId[];
+
+  isFinalStage?: boolean;
 }
 
-const stageSchema = new Schema<IStage>(
+const CaseStageSchema = new Schema<CaseStage>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["pending", "in_progress", "completed"],
-      default: "pending",
-    },
-    estimatedHours: {
-      type: Number,
-      required: true,
-    },
-    actualHours: {
-      type: Number,
-      default: 0,
-    },
-    responsibleUser: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    case: {
+    caseId: {
       type: Schema.Types.ObjectId,
       ref: "Case",
       required: true,
+      index: true,
     },
-    completedAt: {
-      type: Date,
-      default: null,
-    },
-    completedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      default: null,
-    },
-    dueDate: {
-      type: Date,
+
+    title: {
+      type: String,
       required: true,
     },
-    history: [
-      {
-        action: {
-          type: String,
-          required: true,
-        },
-        by: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        at: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-    delegatedTo: {
+
+    description: {
+      type: String,
+    },
+
+    order: {
+      type: Number,
+      required: true,
+    },
+
+    assignedTo: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    delegatedBy: {
+
+    assignedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    delegatedAt: {
+
+    status: {
+      type: String,
+      enum: Object.values(CASE_STAGE_STATUS),
+      default: CASE_STAGE_STATUS.PENDING,
+    },
+
+    priority: {
+      type: String,
+    },
+
+    estimatedDays: {
+      type: Number,
+    },
+
+    startedAt: {
       type: Date,
     },
-    returnedToOriginalUser: {
+
+    dueDate: {
+      type: Date,
+    },
+
+    completedAt: {
+      type: Date,
+    },
+
+    delayReason: {
+      type: String,
+    },
+
+    dependsOn: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "CaseStage",
+      },
+    ],
+
+    isFinalStage: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
-const Stage = mongoose.model<IStage>("Stage", stageSchema);
+CaseStageSchema.index({
+  caseId: 1,
+  assignedTo: 1,
+  status: 1,
+});
 
-export default Stage;
+const CaseStage = mongoose.model<CaseStage>("CaseStage", CaseStageSchema);
+
+export type CaseStageDocument = HydratedDocument<CaseStage>;
+
+export default CaseStage;

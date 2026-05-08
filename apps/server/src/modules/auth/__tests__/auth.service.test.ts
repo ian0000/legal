@@ -1,69 +1,92 @@
 import User from "../../../models/User";
-import Token from "../../../models/Token";
+
 import * as authService from "../auth.user.service";
-import { hashPassword, checkPassword, createSendTokenUser } from "../../../utils/auth";
+
+import { hashPassword, checkPassword } from "../../../utils/auth";
+
+import {
+  createVerificationToken,
+  validateVerificationToken,
+} from "../../../utils/verification-token";
+
 import { generateJWT } from "../../../utils/jwt";
-import { generateToken } from "../../../utils/token";
+
 import { AuthEmail } from "../auth.email.service";
 
-jest.mock("@/models/User");
-jest.mock("@/models/Token");
-jest.mock("@/utils/auth");
-jest.mock("@/utils/jwt");
-jest.mock("@/utils/token");
+jest.mock("../../../models/User");
+
+jest.mock("../../../utils/auth");
+
+jest.mock("../../../utils/verification-token");
+
+jest.mock("../../../utils/jwt");
+
 jest.mock("../auth.email.service");
 
 describe("Auth Service", () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
-  // =============================
+  // =====================================
   // CREATE ACCOUNT
-  // =============================
+  // =====================================
+
   describe("createAccount", () => {
-    it("should create user and send token", async () => {
+    it("should create account and send setup token", async () => {
       (User.findOne as jest.Mock).mockResolvedValue(null);
+
       (hashPassword as jest.Mock).mockResolvedValue("hashed");
 
-      const saveMock = jest.fn();
-
-      (User as any).mockImplementation(() => ({
-        save: saveMock,
+      const createdUser = {
+        _id: "1",
         email: "test@test.com",
-        name: "Test",
-      }));
+        firstName: "Ian",
+        lastName: "Mena",
+      };
+
+      (User.create as jest.Mock).mockResolvedValue(createdUser);
+
+      (createVerificationToken as jest.Mock).mockResolvedValue({
+        rawToken: "raw-token",
+      });
 
       await authService.createAccount({
         email: "test@test.com",
-        name: "Test",
-        password: "123",
+        firstName: "Ian",
+        lastName: "Mena",
       } as any);
 
-      expect(saveMock).toHaveBeenCalled();
-      expect(createSendTokenUser).toHaveBeenCalled();
+      expect(User.create).toHaveBeenCalled();
+
+      expect(createVerificationToken).toHaveBeenCalled();
+
+      expect(AuthEmail.sendConfirmationEmail).toHaveBeenCalled();
     });
 
-    it("should throw if user exists", async () => {
+    it("should throw if user already exists", async () => {
       (User.findOne as jest.Mock).mockResolvedValue({});
 
-      await expect(authService.createAccount({ email: "test@test.com" } as any)).rejects.toThrow(
-        "El usuario ya esta registrado",
-      );
+      await expect(
+        authService.createAccount({
+          email: "test@test.com",
+        } as any),
+      ).rejects.toThrow("El usuario ya está registrado");
     });
   });
 
-  // =============================
-  // CONFIRM ACCOUNT
-  // =============================
-  describe("confirmAccount", () => {
-    it("should confirm account", async () => {
-      const deleteMock = jest.fn();
+  // =====================================
+  // SETUP ACCOUNT
+  // =====================================
+
+  describe("setupAccount", () => {
+    it("should setup account correctly", async () => {
       const saveMock = jest.fn();
 
-      (Token.findOne as jest.Mock).mockResolvedValue({
-        user: "123",
-        deleteOne: deleteMock,
+      (validateVerificationToken as jest.Mock).mockResolvedValue({
+        user: "1",
+        usedAt: null,
+        save: saveMock,
       });
 
       (User.findById as jest.Mock).mockResolvedValue({
@@ -71,26 +94,27 @@ describe("Auth Service", () => {
         save: saveMock,
       });
 
-      await authService.confirmAccount("token");
+      (hashPassword as jest.Mock).mockResolvedValue("hashed");
+
+      await authService.setupAccount("token", "password");
+
+      expect(validateVerificationToken).toHaveBeenCalled();
 
       expect(saveMock).toHaveBeenCalled();
-      expect(deleteMock).toHaveBeenCalled();
-    });
-
-    it("should throw if token invalid", async () => {
-      (Token.findOne as jest.Mock).mockResolvedValue(null);
-
-      await expect(authService.confirmAccount("bad")).rejects.toThrow("Token no valido");
     });
   });
 
-  // =============================
+  // =====================================
   // LOGIN
-  // =============================
+  // =====================================
+
   describe("login", () => {
     it("should login correctly", async () => {
       (User.findOne as jest.Mock).mockResolvedValue({
         _id: "1",
+        firstName: "Ian",
+        lastName: "Mena",
+        email: "test@test.com",
         password: "hashed",
         isConfirmed: true,
         isActive: true,
@@ -98,35 +122,29 @@ describe("Auth Service", () => {
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(true);
+
       (generateJWT as jest.Mock).mockReturnValue("jwt");
 
-      const result = await authService.login("a", "b");
+      const result = await authService.login("test@test.com", "123456");
 
-      expect(result).toBe("jwt");
-    });
+      expect(result).toEqual({
+        accessToken: "jwt",
 
-    it("should throw if not confirmed", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
-        isConfirmed: false,
+        user: {
+          id: "1",
+          firstName: "Ian",
+          lastName: "Mena",
+          email: "test@test.com",
+          role: "LAWYER",
+        },
       });
-
-      await expect(authService.login("a", "b")).rejects.toThrow("Cuenta no confirmada");
     });
 
-    it("should throw if inactive", async () => {
+    it("should throw if password incorrect", async () => {
       (User.findOne as jest.Mock).mockResolvedValue({
-        isConfirmed: true,
-        isActive: false,
-      });
-
-      await expect(authService.login("a", "b")).rejects.toThrow("Cuenta inactiva");
-    });
-
-    it("should throw if password wrong", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
+        password: "hashed",
         isConfirmed: true,
         isActive: true,
-        password: "hashed",
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(false);
@@ -135,129 +153,98 @@ describe("Auth Service", () => {
     });
   });
 
-  // =============================
-  // REQUEST CONFIRMATION
-  // =============================
-  describe("requestConfirmationCode", () => {
-    it("should send token", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
-        isConfirmed: false,
-      });
-
-      await authService.requestConfirmationCode("a");
-
-      expect(createSendTokenUser).toHaveBeenCalled();
-    });
-
-    it("should throw if confirmed", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
-        isConfirmed: true,
-      });
-
-      await expect(authService.requestConfirmationCode("a")).rejects.toThrow(
-        "Cuenta ya confirmada",
-      );
-    });
-  });
-
-  // =============================
+  // =====================================
   // FORGOT PASSWORD
-  // =============================
-  describe("forgotPassword", () => {
-    it("should send email and save token", async () => {
-      const saveMock = jest.fn();
+  // =====================================
 
+  describe("forgotPassword", () => {
+    it("should send reset token", async () => {
       (User.findOne as jest.Mock).mockResolvedValue({
         _id: "1",
         email: "test@test.com",
-        name: "Test",
+        firstName: "Ian",
+        lastName: "Mena",
       });
 
-      (generateToken as jest.Mock).mockReturnValue("token");
+      (createVerificationToken as jest.Mock).mockResolvedValue({
+        rawToken: "reset-token",
+      });
 
-      (Token as any).mockImplementation(() => ({
-        token: "token",
-        save: saveMock,
-      }));
+      await authService.forgotPassword("test@test.com");
 
-      await authService.forgotPassword("a");
+      expect(createVerificationToken).toHaveBeenCalled();
 
-      expect(saveMock).toHaveBeenCalled();
       expect(AuthEmail.sendPasswordResetToken).toHaveBeenCalled();
     });
   });
 
-  // =============================
-  // VALIDATE TOKEN
-  // =============================
-  describe("validateToken", () => {
-    it("should validate token", async () => {
-      (Token.findOne as jest.Mock).mockResolvedValue({});
-
-      const result = await authService.validateToken("a");
-
-      expect(result).toBeDefined();
-    });
-
-    it("should throw if invalid", async () => {
-      (Token.findOne as jest.Mock).mockResolvedValue(null);
-
-      await expect(authService.validateToken("a")).rejects.toThrow("Token no valido");
-    });
-  });
-
-  // =============================
+  // =====================================
   // UPDATE PASSWORD WITH TOKEN
-  // =============================
+  // =====================================
+
   describe("updatePasswordWithToken", () => {
-    it("should update password", async () => {
+    it("should update password correctly", async () => {
       const saveMock = jest.fn();
-      const deleteMock = jest.fn();
 
-      (Token.findOne as jest.Mock).mockResolvedValue({
+      (validateVerificationToken as jest.Mock).mockResolvedValue({
         user: "1",
-        deleteOne: deleteMock,
-      });
-
-      (User.findById as jest.Mock).mockResolvedValue({
+        usedAt: null,
         save: saveMock,
       });
 
-      (hashPassword as jest.Mock).mockResolvedValue("hashed");
+      (User.findById as jest.Mock).mockResolvedValue({
+        password: "old",
+        save: saveMock,
+      });
 
-      await authService.updatePasswordWithToken("t", "123");
+      (hashPassword as jest.Mock).mockResolvedValue("new-hash");
+
+      await authService.updatePasswordWithToken("token", "newPassword");
 
       expect(saveMock).toHaveBeenCalled();
-      expect(deleteMock).toHaveBeenCalled();
     });
   });
 
-  // =============================
+  // =====================================
   // UPDATE PROFILE
-  // =============================
+  // =====================================
+
   describe("updateProfile", () => {
-    it("should update user", async () => {
+    it("should update profile", async () => {
       const saveMock = jest.fn();
 
+      (User.findOne as jest.Mock).mockResolvedValue(null);
+
+      (User.findOne as jest.Mock).mockResolvedValue(null);
+
       (User.findById as jest.Mock).mockResolvedValue({
-        email: "old",
-        name: "old",
+        _id: "1",
+
+        email: "old@test.com",
+
+        firstName: "Old",
+
+        lastName: "Name",
+
         save: saveMock,
       });
 
       const result = await authService.updateProfile("1", {
-        email: "new",
-        name: "new",
+        email: "new@test.com",
+        firstName: "New",
+        lastName: "Name",
       });
 
       expect(saveMock).toHaveBeenCalled();
+
       expect(result).toBeDefined();
     });
   });
 
-  // =============================
+  // =====================================
   // UPDATE PASSWORD
-  // =============================
+  // =====================================
+
   describe("updatePassword", () => {
     it("should update password", async () => {
       const saveMock = jest.fn();
@@ -268,11 +255,12 @@ describe("Auth Service", () => {
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(true);
-      (hashPassword as jest.Mock).mockResolvedValue("new");
+
+      (hashPassword as jest.Mock).mockResolvedValue("new-hash");
 
       await authService.updatePassword("1", {
-        currentPassword: "a",
-        newPassword: "b",
+        currentPassword: "old",
+        newPassword: "new",
       });
 
       expect(saveMock).toHaveBeenCalled();

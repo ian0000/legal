@@ -1,8 +1,7 @@
-import { UserRole } from "@legal/shared/types/roles";
+import { UserRole } from "@legal/shared/src/types/roles";
 import jwt from "jsonwebtoken";
-import { Types } from "mongoose";
 type UserPayload = {
-  id: Types.ObjectId;
+  id: string;
   role: UserRole;
 };
 

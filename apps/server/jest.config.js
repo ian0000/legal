@@ -5,7 +5,7 @@ module.exports = {
   testEnvironment: "node",
   rootDir: "./src",
   testMatch: ["**/?(*.)+(spec|test).ts"],
-  setupFilesAfterEnv: ["<rootDir>/test/setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/config/test/setup.ts"],
   clearMocks: true,
 
   moduleNameMapper: {

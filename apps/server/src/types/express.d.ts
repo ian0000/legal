@@ -1,10 +1,12 @@
-import { UserDocument } from "@/models/User";
+import { UserRole } from "@legal/shared/src/types/roles";
 
 declare global {
   namespace Express {
     interface Request {
-      userId: string;
-      role: UserDocument["role"];
+      user?: {
+        id: string;
+        role: UserRole;
+      };
     }
   }
 }

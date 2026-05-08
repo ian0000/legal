@@ -1,79 +1,177 @@
-import mongoose, { HydratedDocument, Schema } from "mongoose";
+import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 
 export interface Client {
-  name: string;
-  email: string;
-  password?: string;
-  phone?: string;
-  address?: string;
-  nationalId: string;
-  isConfirmed: boolean;
-  isActive: boolean;
-  lastAccessRequest: Date;
-}
+  firstName: string;
 
-export interface CreateClientDTO {
-  name: string;
-  nationalId: string;
-  phone?: string;
-  address?: string;
+  lastName: string;
+
+  cedula: string;
+
   email?: string;
+
+  phone?: string;
+
+  address?: string;
+
+  notes?: string;
+
+  userId?: Types.ObjectId;
+
+  isActive: boolean;
+
+  createdBy: Types.ObjectId;
 }
 
-export interface ActivateClientLoginDTO {
-  email: string;
-  password: string;
-}
-
-export interface ClientLoginDTO {
-  email: string;
-  password: string;
-}
-
-const clientSchema = new Schema<Client>(
+const ClientSchema = new Schema<Client>(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
+      trim: true,
     },
+
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    cedula: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      trim: true,
+    },
+
     email: {
       type: String,
-      required: true,
-      unique: true,
+      lowercase: true,
+      trim: true,
+      sparse: true,
+      index: true,
     },
-    password: {
-      type: String,
-      select: false,
-    },
+
     phone: {
       type: String,
-      required: true,
+      trim: true,
     },
+
     address: {
       type: String,
-      required: true,
+      trim: true,
     },
-    nationalId: {
+
+    notes: {
       type: String,
-      required: true,
+    },
+
+    /**
+     * Relación opcional con User
+     * para acceso al portal del cliente
+     */
+
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
       unique: true,
+      sparse: true,
+      index: true,
     },
-    isConfirmed: {
-      type: Boolean,
-      default: false,
-    },
+
     isActive: {
       type: Boolean,
       default: true,
+      index: true,
     },
-    lastAccessRequest: {
-      type: Date,
+
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
+export interface CreateClientDTO {
+  firstName: string;
 
-const Client = mongoose.model<Client>("Client", clientSchema);
+  lastName: string;
+
+  cedula: string;
+
+  email: string;
+
+  phone?: string;
+
+  address?: string;
+
+  notes?: string;
+
+  userId?: string;
+}
+
+export interface UpdateClientDTO {
+  firstName?: string;
+
+  lastName?: string;
+
+  cedula?: string;
+
+  email?: string;
+
+  phone?: string;
+
+  address?: string;
+
+  notes?: string;
+
+  userId?: string;
+
+  isActive?: boolean;
+}
+
+export interface GetClientsQueryDTO {
+  search?: string;
+
+  page?: number;
+
+  limit?: number;
+
+  isActive?: boolean;
+}
+/**
+ * Búsqueda rápida
+ */
+
+ClientSchema.index({
+  firstName: "text",
+  lastName: "text",
+  cedula: "text",
+  email: "text",
+});
+
+/**
+ * Nombre completo virtual
+ */
+
+ClientSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+ClientSchema.set("toJSON", {
+  virtuals: true,
+});
+
+ClientSchema.set("toObject", {
+  virtuals: true,
+});
+
+const Client = mongoose.model<Client>("Client", ClientSchema);
 
 export type ClientDocument = HydratedDocument<Client>;
+
 export default Client;
