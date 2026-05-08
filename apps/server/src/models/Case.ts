@@ -102,6 +102,11 @@ export interface Case {
     pendingAmount: number;
     expenses: number;
   };
+  isDeleted: boolean;
+
+  deletedAt?: Date;
+
+  deletedBy?: Types.ObjectId;
 }
 
 const CaseSchema = new Schema<Case>(
@@ -207,6 +212,20 @@ const CaseSchema = new Schema<Case>(
         type: Number,
         default: 0,
       },
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    deletedAt: {
+      type: Date,
+    },
+
+    deletedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   {

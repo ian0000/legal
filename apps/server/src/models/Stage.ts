@@ -1,6 +1,56 @@
 import { CASE_STAGE_STATUS, CaseStageStatus } from "@legal/shared/src/types/roles";
 import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
+export interface CreateCaseStageDTO {
+  caseId: string;
 
+  title: string;
+
+  description?: string;
+
+  assignedTo?: string;
+
+  priority?: string;
+
+  estimatedDays?: number;
+
+  dueDate?: Date;
+
+  dependsOn?: string[];
+
+  isFinalStage?: boolean;
+}
+
+export interface UpdateCaseStageDTO {
+  title?: string;
+
+  description?: string;
+
+  assignedTo?: string;
+
+  priority?: string;
+
+  estimatedDays?: number;
+
+  dueDate?: Date;
+
+  dependsOn?: string[];
+
+  isFinalStage?: boolean;
+}
+
+export interface UpdateCaseStageStatusDTO {
+  status: CaseStageStatus;
+
+  delayReason?: string;
+}
+
+export interface AssignCaseStageDTO {
+  assignedTo: string;
+}
+
+export interface ReorderCaseStageDTO {
+  order: number;
+}
 export interface CaseStage {
   caseId: Types.ObjectId;
 
@@ -31,6 +81,9 @@ export interface CaseStage {
   dependsOn?: Types.ObjectId[];
 
   isFinalStage?: boolean;
+
+  isDeleted: boolean;
+  deletedAt?: Date;
 }
 
 const CaseStageSchema = new Schema<CaseStage>(
@@ -106,6 +159,14 @@ const CaseStageSchema = new Schema<CaseStage>(
     isFinalStage: {
       type: Boolean,
       default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
+    deletedAt: {
+      type: Date,
     },
   },
   {

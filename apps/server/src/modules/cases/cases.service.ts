@@ -7,9 +7,22 @@ import Case, { CreateCaseDTO, GetCasesDTO, UpdateCaseDTO } from "../../models/Ca
 import Client from "../../models/Client";
 import User from "../../models/User";
 import { CreateError } from "../../utils/CreateError";
+
 export const createCase = async (data: CreateCaseDTO) => {
+  if (!data.code?.trim()) {
+    throw CreateError("El código es obligatorio", 400);
+  }
+
+  if (!data.title?.trim()) {
+    throw CreateError("El título es obligatorio", 400);
+  }
+
+  const normalizedCode = data.code.trim().toUpperCase();
+
   const existingCase = await Case.findOne({
-    code: data.code,
+    code: normalizedCode,
+
+    isDeleted: false,
   });
 
   if (existingCase) {
@@ -40,14 +53,6 @@ export const createCase = async (data: CreateCaseDTO) => {
     }
   }
 
-  if (!data.code?.trim()) {
-    throw CreateError("El código es obligatorio", 400);
-  }
-
-  if (!data.title?.trim()) {
-    throw CreateError("El título es obligatorio", 400);
-  }
-  const normalizedCode = data.code.trim().toUpperCase();
   const newCase = await Case.create({
     code: normalizedCode,
 
@@ -73,6 +78,7 @@ export const createCase = async (data: CreateCaseDTO) => {
 
     tags: data.tags || [],
   });
+
   await Activity.create({
     userId: data.createdBy,
 
@@ -82,15 +88,17 @@ export const createCase = async (data: CreateCaseDTO) => {
 
     description: `Caso ${newCase.code} creado`,
   });
+
   return newCase;
 };
-
 // =====================================
 // GET CASES
 // =====================================
 
 export const getCases = async (filters: GetCasesDTO = {}) => {
-  const query: any = {};
+  const query: any = {
+    isDeleted: false,
+  };
 
   if (filters.status) {
     query.status = filters.status;
@@ -107,6 +115,25 @@ export const getCases = async (filters: GetCasesDTO = {}) => {
   if (filters.priority) {
     query.priority = filters.priority;
   }
+
+  if (filters.search) {
+    query.$or = [
+      {
+        title: {
+          $regex: filters.search,
+          $options: "i",
+        },
+      },
+
+      {
+        code: {
+          $regex: filters.search,
+          $options: "i",
+        },
+      },
+    ];
+  }
+
   const page = Number(filters.page) || 1;
 
   const limit = Number(filters.limit) || 10;
@@ -146,9 +173,12 @@ export const getCases = async (filters: GetCasesDTO = {}) => {
 // =====================================
 // GET CASE BY ID
 // =====================================
-
 export const getCaseById = async (caseId: string) => {
-  const legalCase = await Case.findById(caseId)
+  const legalCase = await Case.findOne({
+    _id: caseId,
+
+    isDeleted: false,
+  })
     .populate("clientId")
     .populate("principalLawyerId")
     .populate("assignedUsers")
@@ -166,17 +196,33 @@ export const getCaseById = async (caseId: string) => {
 // =====================================
 
 export const updateCase = async (caseId: string, data: UpdateCaseDTO) => {
-  const legalCase = await Case.findById(caseId);
+  const legalCase = await Case.findOne({
+    _id: caseId,
+
+    isDeleted: false,
+  });
 
   if (!legalCase) {
     throw CreateError("Caso no encontrado", 404);
   }
 
+  const previousStatus = legalCase.status;
+
   Object.assign(legalCase, data);
 
   await legalCase.save();
 
-  if (data.status && data.status !== legalCase.status) {
+  await Activity.create({
+    userId: legalCase.createdBy,
+
+    caseId: legalCase._id,
+
+    action: "CASE_UPDATED",
+
+    description: `Caso actualizado`,
+  });
+
+  if (data.status && data.status !== previousStatus) {
     await Activity.create({
       userId: legalCase.createdBy,
 
@@ -187,21 +233,40 @@ export const updateCase = async (caseId: string, data: UpdateCaseDTO) => {
       description: `Estado cambiado a ${data.status}`,
     });
   }
+
   return legalCase;
 };
-
 // =====================================
 // DELETE CASE
 // =====================================
+export const deleteCase = async (caseId: string, deletedBy: string) => {
+  const legalCase = await Case.findOne({
+    _id: caseId,
 
-export const deleteCase = async (caseId: string) => {
-  const legalCase = await Case.findById(caseId);
+    isDeleted: false,
+  });
 
   if (!legalCase) {
     throw CreateError("Caso no encontrado", 404);
   }
 
-  await legalCase.deleteOne();
+  legalCase.isDeleted = true;
+
+  legalCase.deletedAt = new Date();
+
+  legalCase.deletedBy = deletedBy as any;
+
+  await legalCase.save();
+
+  await Activity.create({
+    userId: deletedBy,
+
+    caseId: legalCase._id,
+
+    action: "CASE_DELETED",
+
+    description: `Caso ${legalCase.code} eliminado`,
+  });
 
   return {
     message: "Caso eliminado correctamente",

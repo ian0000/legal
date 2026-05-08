@@ -108,18 +108,21 @@ describe("Cases Controller", () => {
   // =====================================
   // DELETE CASE
   // =====================================
-
   describe("deleteCase", () => {
     it("should delete case", async () => {
       const req: any = {
         params: {
           id: "case-id",
         },
+
+        user: {
+          id: "user-id",
+        },
       };
 
       await controller.deleteCase(req, res, next);
 
-      expect(casesService.deleteCase).toHaveBeenCalledWith("case-id");
+      expect(casesService.deleteCase).toHaveBeenCalledWith("case-id", "user-id");
 
       expect(res.status).toHaveBeenCalledWith(200);
     });

@@ -69,7 +69,7 @@ export const updateCase = async (req: Request, res: Response, next: NextFunction
 
 export const deleteCase = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await casesService.deleteCase(req.params.id as string);
+    const result = await casesService.deleteCase(req.params.id as string, req.user!.id);
 
     res.status(200).json(result);
   } catch (error) {

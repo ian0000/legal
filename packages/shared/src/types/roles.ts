@@ -21,6 +21,7 @@ export const CASE_STAGE_STATUS = {
   REVIEW: "review",
   BLOCKED: "blocked",
   COMPLETED: "completed",
+  CANCELLED: "cancelled",
 } as const;
 
 export type CaseStageStatus = (typeof CASE_STAGE_STATUS)[keyof typeof CASE_STAGE_STATUS];
