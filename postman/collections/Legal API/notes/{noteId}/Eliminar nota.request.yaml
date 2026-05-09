@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/notes/:noteId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: noteId
+    value: string
+    description: ID de la nota
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Eliminar nota.resources/examples
+order: 3000

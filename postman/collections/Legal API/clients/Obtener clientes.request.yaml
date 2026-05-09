@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{baseUrl}}/clients?search=string&isActive=false&page=9002&limit=9002"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: search
+    value: string
+    description: Buscar clientes
+    $type: string
+  - key: isActive
+    value: "false"
+    description: Filtrar clientes activos
+    $type: boolean
+  - key: page
+    value: "9002"
+    description: Número de página
+    $type: integer
+  - key: limit
+    value: "9002"
+    description: Cantidad de resultados
+    $type: integer
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener clientes.resources/examples
+order: 2000

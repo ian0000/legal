@@ -1,0 +1,152 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/notifications/:id/read"
+  method: PUT
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID de la notificación
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "notification": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "userId": "681d0f8f8d7c4b0012f34abc",
+          "title": "Nueva etapa asignada",
+          "message": "Se te ha asignado una nueva etapa en el caso.",
+          "type": "stage_assigned",
+          "priority": "medium",
+          "isRead": false,
+          "readAt": "1964-07-15T21:56:01.379Z",
+          "actionUrl": "/cases/123/stages/456",
+          "entityType": "CaseStage",
+          "entityId": "681d0f8f8d7c4b0012f34abc",
+          "relatedCaseId": "681d0f8f8d7c4b0012f34abc",
+          "relatedStageId": "681d0f8f8d7c4b0012f34abc",
+          "metadata": {
+            "key_0": "string",
+            "key_1": "string",
+            "key_2": true
+          },
+          "expiresAt": "1985-04-21T01:14:56.362Z",
+          "createdAt": "2016-12-13T19:44:48.231Z",
+          "updatedAt": "1974-09-25T08:31:30.077Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "notification": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "userId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "title": {
+                "type": "string",
+                "example": "Nueva etapa asignada"
+              },
+              "message": {
+                "type": "string",
+                "example": "Se te ha asignado una nueva etapa en el caso."
+              },
+              "type": {
+                "type": "string",
+                "example": "stage_assigned"
+              },
+              "priority": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high",
+                  "urgent"
+                ],
+                "example": "medium"
+              },
+              "isRead": {
+                "type": "boolean",
+                "example": false
+              },
+              "readAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "actionUrl": {
+                "type": "string",
+                "example": "/cases/123/stages/456"
+              },
+              "entityType": {
+                "type": "string",
+                "example": "CaseStage"
+              },
+              "entityId": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "relatedCaseId": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "relatedStageId": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "metadata": {
+                "type": "object"
+              },
+              "expiresAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000

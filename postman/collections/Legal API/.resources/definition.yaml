@@ -1,0 +1,10 @@
+$kind: collection
+description: API documentation for Legal backend
+variables:
+  baseUrl: http://localhost:4000/api
+auth:
+  - id: e352c717-9395-4d30-aeae-157d070cd237
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{bearerToken}}"

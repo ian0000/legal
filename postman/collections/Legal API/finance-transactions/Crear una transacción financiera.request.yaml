@@ -1,0 +1,86 @@
+$kind: http-request
+url: "{{baseUrl}}/finance-transactions"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Pago de honorarios",
+      "amount": 5552.100605386303,
+      "type": "income",
+      "category": "string",
+      "description": "string",
+      "method": "transfer",
+      "reference": "string",
+      "attachments": [
+        "string",
+        "string"
+      ],
+      "transactionDate": "2012-03-29T11:30:16.556Z",
+      "relatedCaseId": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Pago de honorarios"
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "income",
+            "expense"
+          ],
+          "example": "income"
+        },
+        "category": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "cash",
+            "transfer",
+            "card",
+            "check",
+            "other"
+          ],
+          "example": "transfer"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "transactionDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "relatedCaseId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "amount",
+        "type",
+        "category"
+      ]
+    }
+examples: ./.resources/Crear una transacción financiera.resources/examples
+order: 1000

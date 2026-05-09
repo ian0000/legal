@@ -1,0 +1,222 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/cases/:caseId/stages"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: caseId
+      value: string
+      description: ID del caso
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "stages": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "title": "Revisión de documentos",
+            "description": "string",
+            "order": 1,
+            "assignedTo": "681d0f8f8d7c4b0012f34abc",
+            "assignedBy": "681d0f8f8d7c4b0012f34abc",
+            "status": "pending",
+            "priority": "high",
+            "estimatedDays": 5,
+            "startedAt": "1993-04-06T20:56:17.066Z",
+            "dueDate": "2007-04-17T19:56:16.311Z",
+            "completedAt": "1954-04-09T22:02:56.519Z",
+            "delayReason": "string",
+            "dependsOn": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "isFinalStage": false,
+            "isDeleted": false,
+            "deletedAt": "1984-06-16T09:11:35.789Z",
+            "createdAt": "2022-06-15T04:01:40.934Z",
+            "updatedAt": "1995-12-15T12:05:46.519Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "title": "Revisión de documentos",
+            "description": "string",
+            "order": 1,
+            "assignedTo": "681d0f8f8d7c4b0012f34abc",
+            "assignedBy": "681d0f8f8d7c4b0012f34abc",
+            "status": "pending",
+            "priority": "high",
+            "estimatedDays": 5,
+            "startedAt": "1989-10-14T11:22:06.106Z",
+            "dueDate": "2020-04-07T01:00:21.465Z",
+            "completedAt": "2011-11-28T02:55:34.705Z",
+            "delayReason": "string",
+            "dependsOn": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "isFinalStage": false,
+            "isDeleted": false,
+            "deletedAt": "1974-09-04T01:52:09.961Z",
+            "createdAt": "1949-02-03T18:21:30.430Z",
+            "updatedAt": "1975-11-03T01:56:35.229Z"
+          }
+        ],
+        "pagination": {
+          "total": 100,
+          "page": 1,
+          "limit": 10,
+          "totalPages": 10
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "stages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "caseId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Revisión de documentos"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "order": {
+                  "type": "number",
+                  "example": 1
+                },
+                "assignedTo": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "assignedBy": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "in_progress",
+                    "completed",
+                    "delayed",
+                    "cancelled"
+                  ],
+                  "example": "pending"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "high"
+                },
+                "estimatedDays": {
+                  "type": "number",
+                  "example": 5
+                },
+                "startedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "dueDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "delayReason": {
+                  "type": "string"
+                },
+                "dependsOn": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                },
+                "isFinalStage": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number",
+                "example": 100
+              },
+              "page": {
+                "type": "number",
+                "example": 1
+              },
+              "limit": {
+                "type": "number",
+                "example": 10
+              },
+              "totalPages": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        }
+      }
+order: 1000

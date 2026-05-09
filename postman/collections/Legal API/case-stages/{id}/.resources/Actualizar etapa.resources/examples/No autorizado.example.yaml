@@ -1,0 +1,37 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/case-stages/:id"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID de la etapa
+  body:
+    type: json
+    content: |-
+      {
+        "title": "string",
+        "description": "string",
+        "assignedTo": "string",
+        "priority": "string",
+        "estimatedDays": 1289.685579503711,
+        "dueDate": "2001-02-28T14:21:54.594Z",
+        "dependsOn": [
+          "string",
+          "string"
+        ],
+        "isFinalStage": true
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

@@ -1,0 +1,34 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/activities?page=9002&limit=9002&userId=string&caseId=string&action=string"
+  method: GET
+  headers:
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: page
+      value: "9002"
+      description: Número de página
+    - key: limit
+      value: "9002"
+      description: Cantidad de resultados por página
+    - key: userId
+      value: string
+      description: Filtrar por usuario
+    - key: caseId
+      value: string
+      description: Filtrar por caso
+    - key: action
+      value: string
+      description: Filtrar por acción
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

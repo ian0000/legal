@@ -1,0 +1,80 @@
+$kind: http-request
+url: "{{baseUrl}}/documents"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "caseId": "string",
+      "name": "Contrato firmado",
+      "originalName": "contrato.pdf",
+      "mimeType": "application/pdf",
+      "size": 1500000,
+      "file": "string",
+      "stageId": "string",
+      "visibility": "internal",
+      "documentType": "contract",
+      "tags": [
+        "string",
+        "string"
+      ]
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "type": "string"
+        },
+        "stageId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "example": "Contrato firmado"
+        },
+        "originalName": {
+          "type": "string",
+          "example": "contrato.pdf"
+        },
+        "mimeType": {
+          "type": "string",
+          "example": "application/pdf"
+        },
+        "size": {
+          "type": "number",
+          "example": 1500000
+        },
+        "file": {
+          "type": "string",
+          "format": "binary"
+        },
+        "visibility": {
+          "type": "string",
+          "example": "internal"
+        },
+        "documentType": {
+          "type": "string",
+          "example": "contract"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "caseId",
+        "name",
+        "originalName",
+        "mimeType",
+        "size",
+        "file"
+      ]
+    }
+examples: ./.resources/Crear un documento.resources/examples
+order: 1000

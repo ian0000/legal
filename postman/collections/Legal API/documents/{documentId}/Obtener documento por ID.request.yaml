@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/documents/:documentId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: documentId
+    value: string
+    description: ID del documento
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener documento por ID.resources/examples
+order: 1000

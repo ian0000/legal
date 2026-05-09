@@ -1,0 +1,175 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/case-stages/:id/status"
+  method: PATCH
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID de la etapa
+  body:
+    type: json
+    content: |-
+      {
+        "status": "pending",
+        "delayReason": "string"
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "message": "Estado de etapa actualizado",
+        "stage": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "caseId": "681d0f8f8d7c4b0012f34abc",
+          "title": "Revisión de documentos",
+          "description": "string",
+          "order": 1,
+          "assignedTo": "681d0f8f8d7c4b0012f34abc",
+          "assignedBy": "681d0f8f8d7c4b0012f34abc",
+          "status": "pending",
+          "priority": "high",
+          "estimatedDays": 5,
+          "startedAt": "1970-11-30T02:34:34.251Z",
+          "dueDate": "2022-09-05T15:17:19.367Z",
+          "completedAt": "1969-09-03T22:42:41.856Z",
+          "delayReason": "string",
+          "dependsOn": [
+            "681d0f8f8d7c4b0012f34abc",
+            "681d0f8f8d7c4b0012f34abc"
+          ],
+          "isFinalStage": false,
+          "isDeleted": false,
+          "deletedAt": "1966-07-21T18:59:15.578Z",
+          "createdAt": "1985-07-17T19:50:53.014Z",
+          "updatedAt": "1961-02-17T01:15:53.498Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "example": "Estado de etapa actualizado"
+          },
+          "stage": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "caseId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "title": {
+                "type": "string",
+                "example": "Revisión de documentos"
+              },
+              "description": {
+                "type": "string"
+              },
+              "order": {
+                "type": "number",
+                "example": 1
+              },
+              "assignedTo": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "assignedBy": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "in_progress",
+                  "completed",
+                  "delayed",
+                  "cancelled"
+                ],
+                "example": "pending"
+              },
+              "priority": {
+                "type": "string",
+                "example": "high"
+              },
+              "estimatedDays": {
+                "type": "number",
+                "example": 5
+              },
+              "startedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "dueDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "completedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "delayReason": {
+                "type": "string"
+              },
+              "dependsOn": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                }
+              },
+              "isFinalStage": {
+                "type": "boolean",
+                "example": false
+              },
+              "isDeleted": {
+                "type": "boolean",
+                "example": false
+              },
+              "deletedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000

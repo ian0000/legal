@@ -1,0 +1,54 @@
+$kind: http-request
+url: "{{baseUrl}}/case-stages/:id/status"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la etapa
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "status": "pending",
+      "delayReason": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "in_progress",
+            "completed",
+            "delayed",
+            "cancelled"
+          ],
+          "example": "pending"
+        },
+        "delayReason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    }
+examples: ./.resources/Actualizar estado de etapa.resources/examples
+order: 1000

@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/finance-transactions/:transactionId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: transactionId
+    value: string
+    description: ID de la transacción
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener transacción por ID.resources/examples
+order: 1000

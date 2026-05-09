@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/finance-transactions/:transactionId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: transactionId
+    value: string
+    description: ID de la transacción
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Eliminar transacción financiera.resources/examples
+order: 3000

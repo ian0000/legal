@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/validate-token"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "token": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "token"
+      ]
+    }
+examples: ./.resources/Validar token.resources/examples
+order: 1000

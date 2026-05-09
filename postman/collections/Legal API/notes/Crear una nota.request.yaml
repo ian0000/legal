@@ -1,0 +1,51 @@
+$kind: http-request
+url: "{{baseUrl}}/notes"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "caseId": "string",
+      "content": "El cliente entregó documentación adicional.",
+      "stageId": "string",
+      "visibleToClient": false,
+      "attachments": [
+        "string",
+        "string"
+      ]
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "type": "string"
+        },
+        "stageId": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string",
+          "example": "El cliente entregó documentación adicional."
+        },
+        "visibleToClient": {
+          "type": "boolean",
+          "example": false
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "caseId",
+        "content"
+      ]
+    }
+examples: ./.resources/Crear una nota.resources/examples
+order: 1000

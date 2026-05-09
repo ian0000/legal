@@ -1,0 +1,35 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/documents"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: json
+    content: |-
+      {
+        "caseId": "string",
+        "name": "Contrato firmado",
+        "originalName": "contrato.pdf",
+        "mimeType": "application/pdf",
+        "size": 1500000,
+        "file": "string",
+        "stageId": "string",
+        "visibility": "internal",
+        "documentType": "contract",
+        "tags": [
+          "string",
+          "string"
+        ]
+      }
+response:
+  statusCode: 400
+  statusText: Bad Request
+  body:
+    type: text
+    content: ""
+order: 2000

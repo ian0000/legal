@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/profile-image"
+method: PUT
+headers:
+  Content-Type: multipart/form-data
+body:
+  type: formdata
+  content:
+    - type: file
+      key: image
+      src: ""
+      description: ""
+examples: ./.resources/Actualizar imagen de perfil.resources/examples
+order: 1000

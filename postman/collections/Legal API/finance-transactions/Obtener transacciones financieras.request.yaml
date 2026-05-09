@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{baseUrl}}/finance-transactions?type=string&status=string&category=string&relatedCaseId=string&page=167.59425223044744&limit=167.59425223044744"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: type
+    value: string
+    description: Filtrar por tipo
+    $type: string
+  - key: status
+    value: string
+    description: Filtrar por estado
+    $type: string
+  - key: category
+    value: string
+    description: Filtrar por categoría
+    $type: string
+  - key: relatedCaseId
+    value: string
+    description: Filtrar por caso relacionado
+    $type: string
+  - key: page
+    value: "167.59425223044744"
+    description: Número de página
+    $type: number
+  - key: limit
+    value: "167.59425223044744"
+    description: Cantidad de resultados
+    $type: number
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener transacciones financieras.resources/examples
+order: 2000

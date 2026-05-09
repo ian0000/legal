@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{baseUrl}}/activities?page=9002&limit=9002&userId=string&caseId=string&action=string"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: page
+    value: "9002"
+    description: Número de página
+    $type: integer
+  - key: limit
+    value: "9002"
+    description: Cantidad de resultados por página
+    $type: integer
+  - key: userId
+    value: string
+    description: Filtrar por usuario
+    $type: string
+  - key: caseId
+    value: string
+    description: Filtrar por caso
+    $type: string
+  - key: action
+    value: string
+    description: Filtrar por acción
+    $type: string
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener todas las actividades.resources/examples
+order: 1000

@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/documents/case/:caseId"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: caseId
+    value: string
+    description: ID del caso
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener documentos de un caso.resources/examples
+order: 1000

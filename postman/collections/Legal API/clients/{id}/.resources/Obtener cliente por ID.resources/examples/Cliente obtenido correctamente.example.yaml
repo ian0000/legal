@@ -1,0 +1,113 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/clients/:id"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID del cliente
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "firstName": "Juan",
+          "lastName": "Pérez",
+          "fullName": "Juan Pérez",
+          "cedula": "1723456789",
+          "email": "nAIkOVx4y-A8R@WlDMymA.ghpa",
+          "phone": "string",
+          "address": "string",
+          "notes": "string",
+          "userId": "681d0f8f8d7c4b0012f34abc",
+          "isActive": true,
+          "createdBy": "681d0f8f8d7c4b0012f34abc",
+          "createdAt": "1985-10-12T13:42:54.403Z",
+          "updatedAt": "1997-02-08T20:08:19.370Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "firstName": {
+                "type": "string",
+                "example": "Juan"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Pérez"
+              },
+              "fullName": {
+                "type": "string",
+                "example": "Juan Pérez"
+              },
+              "cedula": {
+                "type": "string",
+                "example": "1723456789"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "userId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "isActive": {
+                "type": "boolean",
+                "example": true
+              },
+              "createdBy": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000

@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/case-payments/:paymentId"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: paymentId
+      value: string
+      description: ID del pago
+  body:
+    type: json
+    content: |-
+      {
+        "amount": 2321.2734221202536,
+        "type": "income",
+        "category": "string",
+        "method": "transfer",
+        "status": "completed",
+        "description": "string",
+        "reference": "string",
+        "attachments": [
+          "string",
+          "string"
+        ],
+        "paymentDate": "1968-03-28T12:13:06.235Z",
+        "affectsGlobalFinance": true
+      }
+response:
+  statusCode: 404
+  statusText: Not Found
+  body:
+    type: text
+    content: ""
+order: 3000

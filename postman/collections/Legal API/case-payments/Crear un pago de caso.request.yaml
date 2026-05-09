@@ -1,0 +1,88 @@
+$kind: http-request
+url: "{{baseUrl}}/case-payments"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "caseId": "string",
+      "amount": 1500,
+      "type": "income",
+      "category": "Honorarios",
+      "method": "transfer",
+      "description": "string",
+      "reference": "string",
+      "attachments": [
+        "string",
+        "string"
+      ],
+      "paymentDate": "2002-10-17T02:45:52.554Z",
+      "affectsGlobalFinance": false
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1500
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "income",
+            "expense"
+          ],
+          "example": "income"
+        },
+        "category": {
+          "type": "string",
+          "example": "Honorarios"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "cash",
+            "transfer",
+            "card",
+            "check",
+            "other"
+          ],
+          "example": "transfer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "paymentDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "affectsGlobalFinance": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "caseId",
+        "amount",
+        "type",
+        "category",
+        "method"
+      ]
+    }
+examples: ./.resources/Crear un pago de caso.resources/examples
+order: 1000

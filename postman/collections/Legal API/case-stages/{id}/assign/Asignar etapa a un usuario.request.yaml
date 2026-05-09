@@ -1,0 +1,43 @@
+$kind: http-request
+url: "{{baseUrl}}/case-stages/:id/assign"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la etapa
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "assignedTo": "681d0f8f8d7c4b0012f34abc"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "assignedTo": {
+          "type": "string",
+          "example": "681d0f8f8d7c4b0012f34abc"
+        }
+      },
+      "required": [
+        "assignedTo"
+      ]
+    }
+examples: ./.resources/Asignar etapa a un usuario.resources/examples
+order: 1000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications/mark-all-read"
+method: PUT
+headers:
+  Accept: application/json
+body:
+  type: text
+  content: ""
+examples: ./.resources/Marcar todas las notificaciones como leídas.resources/examples
+order: 1000

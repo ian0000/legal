@@ -1,0 +1,36 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/notifications"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: json
+    content: |-
+      {
+        "userId": "string",
+        "title": "string",
+        "message": "string",
+        "type": "stage_assigned",
+        "priority": "medium",
+        "actionUrl": "string",
+        "entityType": "string",
+        "entityId": "string",
+        "relatedCaseId": "string",
+        "relatedStageId": "string",
+        "metadata": {
+          "key_0": false
+        },
+        "expiresAt": "1996-02-23T01:11:53.181Z"
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 3000

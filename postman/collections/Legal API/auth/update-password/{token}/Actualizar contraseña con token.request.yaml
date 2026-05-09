@@ -1,0 +1,42 @@
+$kind: http-request
+name: Actualizar contraseña con token
+url: "{{baseUrl}}/auth/update-password/:token"
+method: POST
+headers:
+  Content-Type: application/json
+pathVariables:
+  - key: token
+    value: 0395c21a32b3f7ea6697d6e362f7d06823cdf64cb9936649a5c90069d2c8cdd4
+    description: Token de recuperación
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "password": "Password123*"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "password"
+      ]
+    }
+examples: ./.resources/Actualizar contraseña con token.resources/examples
+order: 1000

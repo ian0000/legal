@@ -1,0 +1,51 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/create-account"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "firstName": "Ian",
+      "lastName": "Mena",
+      "email": "ian@test.com",
+      "role": "lawyer"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Ian"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Mena"
+        },
+        "email": {
+          "type": "string",
+          "example": "ian@test.com",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "admin",
+            "lawyer",
+            "assistant",
+            "secretary",
+            "client"
+          ],
+          "example": "lawyer"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    }
+examples: ./.resources/Crear cuenta de usuario.resources/examples
+order: 1000

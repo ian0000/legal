@@ -1,0 +1,86 @@
+$kind: http-request
+url: "{{baseUrl}}/cases/:caseId/stages"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: caseId
+    value: string
+    description: ID del caso
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "caseId": "string",
+      "title": "Revisión de documentos",
+      "description": "string",
+      "assignedTo": "string",
+      "priority": "high",
+      "estimatedDays": 5,
+      "dueDate": "1984-07-17T19:21:08.162Z",
+      "dependsOn": [
+        "string",
+        "string"
+      ],
+      "isFinalStage": false
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "example": "Revisión de documentos"
+        },
+        "description": {
+          "type": "string"
+        },
+        "assignedTo": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string",
+          "example": "high"
+        },
+        "estimatedDays": {
+          "type": "number",
+          "example": 5
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isFinalStage": {
+          "type": "boolean",
+          "example": false
+        }
+      },
+      "required": [
+        "caseId",
+        "title"
+      ]
+    }
+examples: ./.resources/Crear una etapa para un caso.resources/examples
+order: 1000

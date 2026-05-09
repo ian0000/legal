@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications/unread-count"
+method: GET
+headers:
+  Accept: application/json
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener cantidad de notificaciones no leídas.resources/examples
+order: 1000

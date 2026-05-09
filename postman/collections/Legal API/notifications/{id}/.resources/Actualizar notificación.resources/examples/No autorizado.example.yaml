@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/notifications/:id"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID de la notificación
+  body:
+    type: json
+    content: |-
+      {
+        "title": "string",
+        "message": "string",
+        "type": "string",
+        "priority": "medium",
+        "isRead": false,
+        "readAt": "1946-08-21T10:11:54.560Z",
+        "actionUrl": "string",
+        "entityType": "string",
+        "entityId": "string",
+        "relatedCaseId": "string",
+        "relatedStageId": "string",
+        "metadata": {
+          "key_0": false,
+          "key_1": 415,
+          "key_2": 4726.20447520908
+        },
+        "expiresAt": "2022-07-18T02:54:18.709Z"
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

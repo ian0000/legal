@@ -1,0 +1,35 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/case-payments"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  body:
+    type: json
+    content: |-
+      {
+        "caseId": "string",
+        "amount": 1500,
+        "type": "income",
+        "category": "Honorarios",
+        "method": "transfer",
+        "description": "string",
+        "reference": "string",
+        "attachments": [
+          "string",
+          "string"
+        ],
+        "paymentDate": "2002-10-17T02:45:52.554Z",
+        "affectsGlobalFinance": false
+      }
+response:
+  statusCode: 400
+  statusText: Bad Request
+  body:
+    type: text
+    content: ""
+order: 2000

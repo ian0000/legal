@@ -1,0 +1,61 @@
+$kind: http-request
+url: "{{baseUrl}}/documents/:documentId"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: documentId
+    value: string
+    description: ID del documento
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "name": "string",
+      "visibility": "string",
+      "documentType": "string",
+      "tags": [
+        "string",
+        "string"
+      ],
+      "version": 6500.126104174469
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string"
+        },
+        "documentType": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": "number"
+        }
+      }
+    }
+examples: ./.resources/Actualizar documento.resources/examples
+order: 2000

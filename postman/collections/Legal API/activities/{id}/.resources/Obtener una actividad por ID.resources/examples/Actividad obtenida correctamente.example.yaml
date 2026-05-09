@@ -1,0 +1,116 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/activities/:id"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID de la actividad
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "userId": "681d0f8f8d7c4b0012f34abc",
+          "caseId": "681d0f8f8d7c4b0012f34abc",
+          "stageId": "681d0f8f8d7c4b0012f34abc",
+          "action": "create_case",
+          "description": "El usuario creó un nuevo caso.",
+          "metadata": {
+            "key_0": 5184.362273176554,
+            "key_1": 2655.843958672125
+          },
+          "isDeleted": false,
+          "deletedAt": "1990-08-04T19:21:51.627Z",
+          "createdAt": "1950-08-15T20:00:10.752Z",
+          "updatedAt": "2014-12-27T17:40:41.164Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "userId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "caseId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "stageId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "create_case",
+                  "update_case",
+                  "delete_case",
+                  "create_stage",
+                  "update_stage",
+                  "complete_stage",
+                  "upload_document",
+                  "create_note",
+                  "register_payment",
+                  "login",
+                  "logout"
+                ],
+                "example": "create_case"
+              },
+              "description": {
+                "type": "string",
+                "example": "El usuario creó un nuevo caso."
+              },
+              "metadata": {
+                "type": "object"
+              },
+              "isDeleted": {
+                "type": "boolean",
+                "example": false
+              },
+              "deletedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000

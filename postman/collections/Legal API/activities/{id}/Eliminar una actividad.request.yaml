@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/activities/:id"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la actividad
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Eliminar una actividad.resources/examples
+order: 2000

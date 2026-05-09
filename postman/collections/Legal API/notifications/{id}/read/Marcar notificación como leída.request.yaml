@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications/:id/read"
+method: PUT
+headers:
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la notificación
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Marcar notificación como leída.resources/examples
+order: 1000

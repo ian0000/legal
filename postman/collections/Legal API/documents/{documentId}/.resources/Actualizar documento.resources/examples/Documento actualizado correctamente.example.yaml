@@ -1,0 +1,157 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/documents/:documentId"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: documentId
+      value: string
+      description: ID del documento
+  body:
+    type: json
+    content: |-
+      {
+        "name": "string",
+        "visibility": "string",
+        "documentType": "string",
+        "tags": [
+          "string",
+          "string"
+        ],
+        "version": 6500.126104174469
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "caseId": "681d0f8f8d7c4b0012f34abc",
+          "uploadedBy": "681d0f8f8d7c4b0012f34abc",
+          "stageId": "681d0f8f8d7c4b0012f34abc",
+          "name": "Contrato firmado",
+          "originalName": "contrato.pdf",
+          "mimeType": "application/pdf",
+          "size": 1500000,
+          "file": "string",
+          "visibility": "internal",
+          "documentType": "contract",
+          "tags": [
+            "contrato",
+            "firmado"
+          ],
+          "version": 1,
+          "uploadedAt": "1997-11-01T07:17:46.835Z",
+          "isDeleted": false,
+          "deletedAt": "1955-03-27T16:29:18.009Z",
+          "createdAt": "1963-06-01T03:04:07.662Z",
+          "updatedAt": "1993-08-17T02:11:17.327Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "caseId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "uploadedBy": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "stageId": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "name": {
+                "type": "string",
+                "example": "Contrato firmado"
+              },
+              "originalName": {
+                "type": "string",
+                "example": "contrato.pdf"
+              },
+              "mimeType": {
+                "type": "string",
+                "example": "application/pdf"
+              },
+              "size": {
+                "type": "number",
+                "example": 1500000
+              },
+              "file": {
+                "type": "string",
+                "format": "binary"
+              },
+              "visibility": {
+                "type": "string",
+                "example": "internal"
+              },
+              "documentType": {
+                "type": "string",
+                "example": "contract"
+              },
+              "tags": {
+                "type": "array",
+                "example": [
+                  "contrato",
+                  "firmado"
+                ],
+                "items": {
+                  "type": "string"
+                }
+              },
+              "version": {
+                "type": "number",
+                "example": 1
+              },
+              "uploadedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "isDeleted": {
+                "type": "boolean",
+                "example": false
+              },
+              "deletedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000

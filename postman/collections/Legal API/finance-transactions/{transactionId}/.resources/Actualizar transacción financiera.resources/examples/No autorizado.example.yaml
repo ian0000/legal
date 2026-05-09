@@ -1,0 +1,39 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/finance-transactions/:transactionId"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: transactionId
+      value: string
+      description: ID de la transacción
+  body:
+    type: json
+    content: |-
+      {
+        "title": "string",
+        "description": "string",
+        "amount": 5623.636324618034,
+        "type": "income",
+        "category": "string",
+        "method": "transfer",
+        "status": "completed",
+        "reference": "string",
+        "attachments": [
+          "string",
+          "string"
+        ],
+        "transactionDate": "1975-04-28T11:48:55.171Z"
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/clients/:id"
+method: GET
+headers:
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID del cliente
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener cliente por ID.resources/examples
+order: 1000

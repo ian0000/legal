@@ -101,7 +101,7 @@ export const setupAccount = async (token: string, password: string) => {
 export const login = async (email: string, password: string) => {
   const user = await User.findOne({
     email,
-  });
+  }).select("+password");
 
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
@@ -213,7 +213,7 @@ export const forgotPassword = async (email: string) => {
 export const updatePasswordWithToken = async (token: string, password: string) => {
   const verification = await validateVerificationToken(token, TOKEN_TYPES.PASSWORD_RESET);
 
-  const user = await User.findById(verification.user);
+  const user = await User.findById(verification.user).select("+password");
 
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);
@@ -279,7 +279,7 @@ export const updateProfile = async (userId: string, data: UpdateProfileInput) =>
 // =====================================
 
 export const updatePassword = async (userId: string, data: UpdatePasswordInput) => {
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).select("+password");
 
   if (!user) {
     throw CreateError("Usuario no encontrado", 404);

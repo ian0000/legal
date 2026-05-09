@@ -1,0 +1,101 @@
+$kind: http-request
+url: "{{baseUrl}}/case-payments/:paymentId"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: paymentId
+    value: string
+    description: ID del pago
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "amount": 2321.2734221202536,
+      "type": "income",
+      "category": "string",
+      "method": "transfer",
+      "status": "completed",
+      "description": "string",
+      "reference": "string",
+      "attachments": [
+        "string",
+        "string"
+      ],
+      "paymentDate": "1968-03-28T12:13:06.235Z",
+      "affectsGlobalFinance": true
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "income",
+            "expense"
+          ],
+          "example": "income"
+        },
+        "category": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "cash",
+            "transfer",
+            "card",
+            "check",
+            "other"
+          ],
+          "example": "transfer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed",
+            "cancelled"
+          ],
+          "example": "completed"
+        },
+        "description": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "paymentDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "affectsGlobalFinance": {
+          "type": "boolean"
+        }
+      }
+    }
+examples: ./.resources/Actualizar pago.resources/examples
+order: 2000

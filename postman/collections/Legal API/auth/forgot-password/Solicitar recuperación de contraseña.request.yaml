@@ -1,0 +1,26 @@
+$kind: http-request
+name: Solicitar recuperación de contraseña
+url: "{{baseUrl}}/auth/forgot-password"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "ian@test.com"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    }
+examples: ./.resources/Solicitar recuperación de contraseña.resources/examples
+order: 1000

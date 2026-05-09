@@ -53,7 +53,8 @@ const UserSchema = new Schema<User>(
 
     password: {
       type: String,
-      required: true,
+      select: false,
+      default: null,
     },
 
     phone: {
@@ -83,7 +84,22 @@ const UserSchema = new Schema<User>(
     },
 
     profileImage: {
-      type: String,
+      data: {
+        type: Buffer,
+      },
+
+      contentType: {
+        type: String,
+      },
+
+      filename: {
+        type: String,
+      },
+
+      uploadedAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
 
     permissions: [

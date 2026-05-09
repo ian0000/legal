@@ -1,0 +1,74 @@
+$kind: http-request
+url: "{{baseUrl}}/case-stages/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la etapa
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "title": "string",
+      "description": "string",
+      "assignedTo": "string",
+      "priority": "string",
+      "estimatedDays": 1289.685579503711,
+      "dueDate": "2001-02-28T14:21:54.594Z",
+      "dependsOn": [
+        "string",
+        "string"
+      ],
+      "isFinalStage": true
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "assignedTo": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "estimatedDays": {
+          "type": "number"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "isFinalStage": {
+          "type": "boolean"
+        }
+      }
+    }
+examples: ./.resources/Actualizar etapa.resources/examples
+order: 2000

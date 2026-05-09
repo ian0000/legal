@@ -1,0 +1,37 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/finance-transactions?type=string&status=string&category=string&relatedCaseId=string&page=167.59425223044744&limit=167.59425223044744"
+  method: GET
+  headers:
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: type
+      value: string
+      description: Filtrar por tipo
+    - key: status
+      value: string
+      description: Filtrar por estado
+    - key: category
+      value: string
+      description: Filtrar por categoría
+    - key: relatedCaseId
+      value: string
+      description: Filtrar por caso relacionado
+    - key: page
+      value: "167.59425223044744"
+      description: Número de página
+    - key: limit
+      value: "167.59425223044744"
+      description: Cantidad de resultados
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

@@ -1,0 +1,31 @@
+$kind: http-request
+url: "{{baseUrl}}/notes?caseId=string&stageId=string&visibleToClient=false&page=167.59425223044744&limit=167.59425223044744"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: caseId
+    value: string
+    description: Filtrar por caso
+    $type: string
+  - key: stageId
+    value: string
+    description: Filtrar por etapa
+    $type: string
+  - key: visibleToClient
+    value: "false"
+    description: Filtrar por visibilidad para cliente
+    $type: boolean
+  - key: page
+    value: "167.59425223044744"
+    description: Número de página
+    $type: number
+  - key: limit
+    value: "167.59425223044744"
+    description: Cantidad de resultados
+    $type: number
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener notas.resources/examples
+order: 2000

@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/cases?status=string&clientId=string&principalLawyerId=string&priority=string&search=string&page=9002&limit=9002"
+  method: GET
+  headers:
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: status
+      value: string
+      description: Filtrar por estado
+    - key: clientId
+      value: string
+      description: Filtrar por cliente
+    - key: principalLawyerId
+      value: string
+      description: Filtrar por abogado principal
+    - key: priority
+      value: string
+      description: Filtrar por prioridad
+    - key: search
+      value: string
+      description: Búsqueda general
+    - key: page
+      value: "9002"
+      description: Número de página
+    - key: limit
+      value: "9002"
+      description: Cantidad de resultados
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

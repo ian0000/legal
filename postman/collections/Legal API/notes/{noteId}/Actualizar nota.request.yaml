@@ -1,0 +1,53 @@
+$kind: http-request
+url: "{{baseUrl}}/notes/:noteId"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: noteId
+    value: string
+    description: ID de la nota
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "content": "string",
+      "visibleToClient": true,
+      "attachments": [
+        "string",
+        "string"
+      ]
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "visibleToClient": {
+          "type": "boolean"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+examples: ./.resources/Actualizar nota.resources/examples
+order: 2000

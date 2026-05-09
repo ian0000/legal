@@ -8,7 +8,32 @@ import { swaggerSpec } from "./config/swagger";
 
 export const app = express();
 
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true,
+    customSiteTitle: "Legal API Docs",
+
+    swaggerOptions: {
+      url: "/api/docs.json",
+    },
+
+    customCss: `
+      .topbar-wrapper::after {
+        content: 'OpenAPI JSON: /api/docs.json';
+        color: white;
+        margin-left: 20px;
+        font-size: 14px;
+      }
+    `,
+  }),
+);
+app.get("/api/docs.json", (_, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(helmet());
 app.use(express.json());

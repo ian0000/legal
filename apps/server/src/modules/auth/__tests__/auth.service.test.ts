@@ -110,15 +110,17 @@ describe("Auth Service", () => {
 
   describe("login", () => {
     it("should login correctly", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
-        _id: "1",
-        firstName: "Ian",
-        lastName: "Mena",
-        email: "test@test.com",
-        password: "hashed",
-        isConfirmed: true,
-        isActive: true,
-        role: "LAWYER",
+      (User.findOne as jest.Mock).mockReturnValue({
+        select: jest.fn().mockResolvedValue({
+          _id: "1",
+          firstName: "Ian",
+          lastName: "Mena",
+          email: "test@test.com",
+          password: "hashed",
+          isConfirmed: true,
+          isActive: true,
+          role: "LAWYER",
+        }),
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(true);
@@ -143,10 +145,12 @@ describe("Auth Service", () => {
     });
 
     it("should throw if password incorrect", async () => {
-      (User.findOne as jest.Mock).mockResolvedValue({
-        password: "hashed",
-        isConfirmed: true,
-        isActive: true,
+      (User.findOne as jest.Mock).mockReturnValue({
+        select: jest.fn().mockResolvedValue({
+          password: "hashed",
+          isConfirmed: true,
+          isActive: true,
+        }),
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(false);
@@ -194,9 +198,11 @@ describe("Auth Service", () => {
         save: saveMock,
       });
 
-      (User.findById as jest.Mock).mockResolvedValue({
-        password: "old",
-        save: saveMock,
+      (User.findById as jest.Mock).mockReturnValue({
+        select: jest.fn().mockResolvedValue({
+          password: "old",
+          save: saveMock,
+        }),
       });
 
       (hashPassword as jest.Mock).mockResolvedValue("new-hash");
@@ -251,9 +257,11 @@ describe("Auth Service", () => {
     it("should update password", async () => {
       const saveMock = jest.fn();
 
-      (User.findById as jest.Mock).mockResolvedValue({
-        password: "hashed",
-        save: saveMock,
+      (User.findById as jest.Mock).mockReturnValue({
+        select: jest.fn().mockResolvedValue({
+          password: "hashed",
+          save: saveMock,
+        }),
       });
 
       (checkPassword as jest.Mock).mockResolvedValue(true);

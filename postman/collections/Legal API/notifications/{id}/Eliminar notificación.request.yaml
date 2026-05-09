@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications/:id"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID de la notificación
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Eliminar notificación.resources/examples
+order: 3000

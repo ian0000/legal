@@ -1,0 +1,31 @@
+$kind: http-request
+name: Actualizar contraseña del usuario autenticado
+url: "{{baseUrl}}/auth/update-password"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "currentPassword": "Password123*",
+      "newPassword": "Password123*"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "currentPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "currentPassword",
+        "newPassword"
+      ]
+    }
+examples: ./.resources/Actualizar contraseña del usuario autenticado.resources/examples
+order: 2000

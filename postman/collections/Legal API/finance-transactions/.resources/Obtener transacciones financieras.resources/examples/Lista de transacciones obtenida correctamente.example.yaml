@@ -1,0 +1,253 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/finance-transactions?type=string&status=string&category=string&relatedCaseId=string&page=167.59425223044744&limit=167.59425223044744"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: type
+      value: string
+      description: Filtrar por tipo
+    - key: status
+      value: string
+      description: Filtrar por estado
+    - key: category
+      value: string
+      description: Filtrar por categoría
+    - key: relatedCaseId
+      value: string
+      description: Filtrar por caso relacionado
+    - key: page
+      value: "167.59425223044744"
+      description: Número de página
+    - key: limit
+      value: "167.59425223044744"
+      description: Cantidad de resultados
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "transactions": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "title": "Pago de honorarios",
+            "description": "string",
+            "amount": 1200,
+            "type": "income",
+            "category": "Honorarios",
+            "method": "transfer",
+            "status": "completed",
+            "reference": "string",
+            "attachments": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "transactionDate": "1957-08-11T09:49:48.222Z",
+            "registeredBy": "681d0f8f8d7c4b0012f34abc",
+            "updatedBy": "681d0f8f8d7c4b0012f34abc",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "relatedCaseId": "681d0f8f8d7c4b0012f34abc",
+            "sourceType": "manual",
+            "isDeleted": false,
+            "deletedAt": "2001-01-11T01:14:28.113Z",
+            "createdAt": "1979-08-19T12:46:18.472Z",
+            "updatedAt": "1970-06-27T02:14:59.602Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "title": "Pago de honorarios",
+            "description": "string",
+            "amount": 1200,
+            "type": "income",
+            "category": "Honorarios",
+            "method": "transfer",
+            "status": "completed",
+            "reference": "string",
+            "attachments": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "transactionDate": "1972-09-18T13:39:11.864Z",
+            "registeredBy": "681d0f8f8d7c4b0012f34abc",
+            "updatedBy": "681d0f8f8d7c4b0012f34abc",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "relatedCaseId": "681d0f8f8d7c4b0012f34abc",
+            "sourceType": "manual",
+            "isDeleted": false,
+            "deletedAt": "1956-01-23T16:04:24.888Z",
+            "createdAt": "2003-03-20T10:00:52.268Z",
+            "updatedAt": "1956-10-28T08:37:10.312Z"
+          }
+        ],
+        "pagination": {
+          "total": 100,
+          "page": 1,
+          "limit": 10,
+          "totalPages": 10
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "transactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Pago de honorarios"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 1200
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "income",
+                    "expense"
+                  ],
+                  "example": "income"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Honorarios"
+                },
+                "method": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "transfer",
+                    "card",
+                    "check",
+                    "other"
+                  ],
+                  "example": "transfer"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "completed",
+                    "cancelled"
+                  ],
+                  "example": "completed"
+                },
+                "reference": {
+                  "type": "string"
+                },
+                "attachments": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                },
+                "transactionDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "registeredBy": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "updatedBy": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "deletedBy": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "relatedCaseId": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "sourceType": {
+                  "type": "string",
+                  "enum": [
+                    "manual",
+                    "case_payment"
+                  ],
+                  "example": "manual"
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number",
+                "example": 100
+              },
+              "page": {
+                "type": "number",
+                "example": 1
+              },
+              "limit": {
+                "type": "number",
+                "example": 10
+              },
+              "totalPages": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        }
+      }
+order: 1000

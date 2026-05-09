@@ -1,0 +1,173 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/documents/case/:caseId"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: caseId
+      value: string
+      description: ID del caso
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "uploadedBy": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "name": "Contrato firmado",
+            "originalName": "contrato.pdf",
+            "mimeType": "application/pdf",
+            "size": 1500000,
+            "file": "string",
+            "visibility": "internal",
+            "documentType": "contract",
+            "tags": [
+              "contrato",
+              "firmado"
+            ],
+            "version": 1,
+            "uploadedAt": "1963-04-22T20:34:53.989Z",
+            "isDeleted": false,
+            "deletedAt": "1979-01-05T02:08:08.097Z",
+            "createdAt": "1949-05-14T16:49:05.895Z",
+            "updatedAt": "1947-04-30T00:47:08.075Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "uploadedBy": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "name": "Contrato firmado",
+            "originalName": "contrato.pdf",
+            "mimeType": "application/pdf",
+            "size": 1500000,
+            "file": "string",
+            "visibility": "internal",
+            "documentType": "contract",
+            "tags": [
+              "contrato",
+              "firmado"
+            ],
+            "version": 1,
+            "uploadedAt": "1975-02-09T08:06:46.059Z",
+            "isDeleted": false,
+            "deletedAt": "2019-09-06T10:20:30.041Z",
+            "createdAt": "1974-12-27T13:33:13.350Z",
+            "updatedAt": "2011-09-08T01:26:32.827Z"
+          }
+        ]
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "caseId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "uploadedBy": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "stageId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Contrato firmado"
+                },
+                "originalName": {
+                  "type": "string",
+                  "example": "contrato.pdf"
+                },
+                "mimeType": {
+                  "type": "string",
+                  "example": "application/pdf"
+                },
+                "size": {
+                  "type": "number",
+                  "example": 1500000
+                },
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                },
+                "visibility": {
+                  "type": "string",
+                  "example": "internal"
+                },
+                "documentType": {
+                  "type": "string",
+                  "example": "contract"
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "contrato",
+                    "firmado"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "version": {
+                  "type": "number",
+                  "example": 1
+                },
+                "uploadedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+order: 1000

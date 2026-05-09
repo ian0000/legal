@@ -1,0 +1,101 @@
+$kind: http-request
+url: "{{baseUrl}}/finance-transactions/:transactionId"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: transactionId
+    value: string
+    description: ID de la transacción
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "title": "string",
+      "description": "string",
+      "amount": 5623.636324618034,
+      "type": "income",
+      "category": "string",
+      "method": "transfer",
+      "status": "completed",
+      "reference": "string",
+      "attachments": [
+        "string",
+        "string"
+      ],
+      "transactionDate": "1975-04-28T11:48:55.171Z"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "income",
+            "expense"
+          ],
+          "example": "income"
+        },
+        "category": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "cash",
+            "transfer",
+            "card",
+            "check",
+            "other"
+          ],
+          "example": "transfer"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed",
+            "cancelled"
+          ],
+          "example": "completed"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "transactionDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+examples: ./.resources/Actualizar transacción financiera.resources/examples
+order: 2000

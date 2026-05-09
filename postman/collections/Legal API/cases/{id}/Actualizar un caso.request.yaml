@@ -1,0 +1,101 @@
+$kind: http-request
+url: "{{baseUrl}}/cases/:id"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+pathVariables:
+  - key: id
+    value: string
+    description: ID del caso
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: json
+  content: |-
+    {
+      "title": "string",
+      "description": "string",
+      "type": "string",
+      "principalLawyerId": "string",
+      "assignedUsers": [
+        "string",
+        "string"
+      ],
+      "status": "active",
+      "priority": "string",
+      "estimatedEndDate": "1999-02-11T05:16:49.628Z",
+      "completedAt": "2018-08-07T13:13:13.687Z",
+      "currentStageId": "string",
+      "tags": [
+        "string",
+        "string"
+      ]
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "principalLawyerId": {
+          "type": "string"
+        },
+        "assignedUsers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "pending",
+            "completed",
+            "cancelled",
+            "closed"
+          ],
+          "example": "active"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "estimatedEndDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "currentStageId": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+examples: ./.resources/Actualizar un caso.resources/examples
+order: 2000

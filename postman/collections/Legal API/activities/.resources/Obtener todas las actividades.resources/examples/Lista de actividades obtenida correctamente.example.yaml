@@ -1,0 +1,157 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/activities?page=9002&limit=9002&userId=string&caseId=string&action=string"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: page
+      value: "9002"
+      description: Número de página
+    - key: limit
+      value: "9002"
+      description: Cantidad de resultados por página
+    - key: userId
+      value: string
+      description: Filtrar por usuario
+    - key: caseId
+      value: string
+      description: Filtrar por caso
+    - key: action
+      value: string
+      description: Filtrar por acción
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "userId": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "action": "create_case",
+            "description": "El usuario creó un nuevo caso.",
+            "metadata": {
+              "key_0": true,
+              "key_1": 3227
+            },
+            "isDeleted": false,
+            "deletedAt": "1975-04-25T23:50:11.763Z",
+            "createdAt": "2008-11-21T22:27:05.380Z",
+            "updatedAt": "1990-08-03T17:23:53.512Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "userId": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "action": "create_case",
+            "description": "El usuario creó un nuevo caso.",
+            "metadata": {
+              "key_0": 3720.5888187998225,
+              "key_1": false
+            },
+            "isDeleted": false,
+            "deletedAt": "2004-05-15T11:12:12.631Z",
+            "createdAt": "1992-03-06T10:30:13.187Z",
+            "updatedAt": "1946-06-16T02:39:48.653Z"
+          }
+        ]
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "caseId": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "stageId": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "action": {
+                  "type": "string",
+                  "enum": [
+                    "create_case",
+                    "update_case",
+                    "delete_case",
+                    "create_stage",
+                    "update_stage",
+                    "complete_stage",
+                    "upload_document",
+                    "create_note",
+                    "register_payment",
+                    "login",
+                    "logout"
+                  ],
+                  "example": "create_case"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "El usuario creó un nuevo caso."
+                },
+                "metadata": {
+                  "type": "object"
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+order: 1000

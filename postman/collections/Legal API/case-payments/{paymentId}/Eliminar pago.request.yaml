@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{baseUrl}}/case-payments/:paymentId"
+method: DELETE
+headers:
+  Accept: application/json
+pathVariables:
+  - key: paymentId
+    value: string
+    description: ID del pago
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+body:
+  type: text
+  content: ""
+examples: ./.resources/Eliminar pago.resources/examples
+order: 3000

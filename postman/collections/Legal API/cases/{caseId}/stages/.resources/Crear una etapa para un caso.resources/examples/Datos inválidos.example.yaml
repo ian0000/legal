@@ -1,0 +1,38 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/cases/:caseId/stages"
+  method: POST
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: caseId
+      value: string
+      description: ID del caso
+  body:
+    type: json
+    content: |-
+      {
+        "caseId": "string",
+        "title": "Revisión de documentos",
+        "description": "string",
+        "assignedTo": "string",
+        "priority": "high",
+        "estimatedDays": 5,
+        "dueDate": "1984-07-17T19:21:08.162Z",
+        "dependsOn": [
+          "string",
+          "string"
+        ],
+        "isFinalStage": false
+      }
+response:
+  statusCode: 400
+  statusText: Bad Request
+  body:
+    type: text
+    content: ""
+order: 2000

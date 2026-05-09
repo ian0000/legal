@@ -1,0 +1,39 @@
+$kind: http-request
+url: "{{baseUrl}}/cases?status=string&clientId=string&principalLawyerId=string&priority=string&search=string&page=9002&limit=9002"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: status
+    value: string
+    description: Filtrar por estado
+    $type: string
+  - key: clientId
+    value: string
+    description: Filtrar por cliente
+    $type: string
+  - key: principalLawyerId
+    value: string
+    description: Filtrar por abogado principal
+    $type: string
+  - key: priority
+    value: string
+    description: Filtrar por prioridad
+    $type: string
+  - key: search
+    value: string
+    description: Búsqueda general
+    $type: string
+  - key: page
+    value: "9002"
+    description: Número de página
+    $type: integer
+  - key: limit
+    value: "9002"
+    description: Cantidad de resultados
+    $type: integer
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener todos los casos.resources/examples
+order: 2000

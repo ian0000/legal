@@ -1,0 +1,173 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/notes?caseId=string&stageId=string&visibleToClient=false&page=167.59425223044744&limit=167.59425223044744"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: caseId
+      value: string
+      description: Filtrar por caso
+    - key: stageId
+      value: string
+      description: Filtrar por etapa
+    - key: visibleToClient
+      value: "false"
+      description: Filtrar por visibilidad para cliente
+    - key: page
+      value: "167.59425223044744"
+      description: Número de página
+    - key: limit
+      value: "167.59425223044744"
+      description: Cantidad de resultados
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "notes": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "userId": "681d0f8f8d7c4b0012f34abc",
+            "content": "El cliente entregó documentación adicional.",
+            "visibleToClient": false,
+            "attachments": [
+              "file1.pdf",
+              "file2.png"
+            ],
+            "isDeleted": false,
+            "deletedAt": "2005-08-22T20:29:34.912Z",
+            "createdAt": "2004-08-04T17:31:48.634Z",
+            "updatedAt": "1998-03-28T04:53:30.463Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "stageId": "681d0f8f8d7c4b0012f34abc",
+            "userId": "681d0f8f8d7c4b0012f34abc",
+            "content": "El cliente entregó documentación adicional.",
+            "visibleToClient": false,
+            "attachments": [
+              "file1.pdf",
+              "file2.png"
+            ],
+            "isDeleted": false,
+            "deletedAt": "1968-05-09T04:04:28.440Z",
+            "createdAt": "2008-10-05T16:28:55.889Z",
+            "updatedAt": "1995-12-20T09:08:45.495Z"
+          }
+        ],
+        "pagination": {
+          "total": 100,
+          "page": 1,
+          "limit": 10,
+          "totalPages": 10
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "caseId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "stageId": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "userId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "content": {
+                  "type": "string",
+                  "example": "El cliente entregó documentación adicional."
+                },
+                "visibleToClient": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "attachments": {
+                  "type": "array",
+                  "example": [
+                    "file1.pdf",
+                    "file2.png"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number",
+                "example": 100
+              },
+              "page": {
+                "type": "number",
+                "example": 1
+              },
+              "limit": {
+                "type": "number",
+                "example": 10
+              },
+              "totalPages": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        }
+      }
+order: 1000

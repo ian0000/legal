@@ -1,0 +1,8 @@
+# Use this workspace to collaborate
+workspace:
+  id: f63a36ca-757e-4354-8a4c-1af01619dbbb
+
+localResources:
+  specs:
+    - ..\final.json
+    - ..\postman\specs\Legal API\swagger.json

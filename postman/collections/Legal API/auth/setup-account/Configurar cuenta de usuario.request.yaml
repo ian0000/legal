@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/setup-account"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "token": "string",
+      "password": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "token",
+        "password"
+      ]
+    }
+examples: ./.resources/Configurar cuenta de usuario.resources/examples
+order: 1000

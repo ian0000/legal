@@ -1,0 +1,92 @@
+$kind: http-request
+url: "{{baseUrl}}/cases"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "code": "CASE-2025-001",
+      "title": "Proceso laboral",
+      "clientId": "string",
+      "principalLawyerId": "string",
+      "createdBy": "string",
+      "description": "string",
+      "type": "laboral",
+      "assignedUsers": [
+        "string",
+        "string"
+      ],
+      "priority": "high",
+      "startDate": "1949-06-22T12:32:53.260Z",
+      "estimatedEndDate": "2012-01-17T03:25:37.969Z",
+      "tags": [
+        "string",
+        "string"
+      ]
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "CASE-2025-001"
+        },
+        "title": {
+          "type": "string",
+          "example": "Proceso laboral"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "example": "laboral"
+        },
+        "clientId": {
+          "type": "string"
+        },
+        "principalLawyerId": {
+          "type": "string"
+        },
+        "assignedUsers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "priority": {
+          "type": "string",
+          "example": "high"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "estimatedEndDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdBy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "title",
+        "clientId",
+        "principalLawyerId",
+        "createdBy"
+      ]
+    }
+examples: ./.resources/Crear un nuevo caso.resources/examples
+order: 1000

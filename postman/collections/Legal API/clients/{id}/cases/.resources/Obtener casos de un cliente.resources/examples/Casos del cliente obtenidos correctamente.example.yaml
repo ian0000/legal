@@ -1,0 +1,239 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/clients/:id/cases"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID del cliente
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "data": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "code": "CASE-2025-001",
+            "title": "Proceso laboral",
+            "description": "string",
+            "type": "laboral",
+            "clientId": "681d0f8f8d7c4b0012f34abc",
+            "createdBy": "681d0f8f8d7c4b0012f34abc",
+            "principalLawyerId": "681d0f8f8d7c4b0012f34abc",
+            "assignedUsers": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "status": "active",
+            "priority": "high",
+            "startDate": "1954-02-10T22:16:54.107Z",
+            "estimatedEndDate": "2024-09-10T14:15:13.504Z",
+            "completedAt": "1991-04-17T15:34:19.924Z",
+            "currentStageId": "681d0f8f8d7c4b0012f34abc",
+            "tags": [
+              "urgente",
+              "laboral"
+            ],
+            "financialSummary": {
+              "totalCost": 5000,
+              "totalPaid": 2500,
+              "pendingAmount": 2500,
+              "expenses": 1200
+            },
+            "isDeleted": false,
+            "deletedAt": "1997-05-14T04:17:57.434Z",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "createdAt": "2023-08-21T09:22:36.080Z",
+            "updatedAt": "2020-04-29T14:26:56.717Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "code": "CASE-2025-001",
+            "title": "Proceso laboral",
+            "description": "string",
+            "type": "laboral",
+            "clientId": "681d0f8f8d7c4b0012f34abc",
+            "createdBy": "681d0f8f8d7c4b0012f34abc",
+            "principalLawyerId": "681d0f8f8d7c4b0012f34abc",
+            "assignedUsers": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "status": "active",
+            "priority": "high",
+            "startDate": "1989-03-14T23:10:26.944Z",
+            "estimatedEndDate": "1979-09-24T17:15:28.091Z",
+            "completedAt": "1952-01-06T08:46:04.867Z",
+            "currentStageId": "681d0f8f8d7c4b0012f34abc",
+            "tags": [
+              "urgente",
+              "laboral"
+            ],
+            "financialSummary": {
+              "totalCost": 5000,
+              "totalPaid": 2500,
+              "pendingAmount": 2500,
+              "expenses": 1200
+            },
+            "isDeleted": false,
+            "deletedAt": "1949-05-21T23:21:32.792Z",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "createdAt": "1961-07-08T09:13:55.153Z",
+            "updatedAt": "2022-03-13T20:05:11.326Z"
+          }
+        ]
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "code": {
+                  "type": "string",
+                  "example": "CASE-2025-001"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Proceso laboral"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "laboral"
+                },
+                "clientId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "createdBy": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "principalLawyerId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "assignedUsers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "active",
+                    "pending",
+                    "completed",
+                    "cancelled",
+                    "closed"
+                  ],
+                  "example": "active"
+                },
+                "priority": {
+                  "type": "string",
+                  "example": "high"
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "estimatedEndDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "completedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "currentStageId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "tags": {
+                  "type": "array",
+                  "example": [
+                    "urgente",
+                    "laboral"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "financialSummary": {
+                  "type": "object",
+                  "properties": {
+                    "totalCost": {
+                      "type": "number",
+                      "example": 5000
+                    },
+                    "totalPaid": {
+                      "type": "number",
+                      "example": 2500
+                    },
+                    "pendingAmount": {
+                      "type": "number",
+                      "example": 2500
+                    },
+                    "expenses": {
+                      "type": "number",
+                      "example": 1200
+                    }
+                  }
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "deletedBy": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+order: 1000

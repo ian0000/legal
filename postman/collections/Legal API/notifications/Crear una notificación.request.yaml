@@ -1,0 +1,84 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications"
+method: POST
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: |-
+    {
+      "userId": "string",
+      "title": "string",
+      "message": "string",
+      "type": "stage_assigned",
+      "priority": "medium",
+      "actionUrl": "string",
+      "entityType": "string",
+      "entityId": "string",
+      "relatedCaseId": "string",
+      "relatedStageId": "string",
+      "metadata": {
+        "key_0": false
+      },
+      "expiresAt": "1996-02-23T01:11:53.181Z"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "example": "stage_assigned"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "urgent"
+          ],
+          "example": "medium"
+        },
+        "actionUrl": {
+          "type": "string"
+        },
+        "entityType": {
+          "type": "string"
+        },
+        "entityId": {
+          "type": "string"
+        },
+        "relatedCaseId": {
+          "type": "string"
+        },
+        "relatedStageId": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "title",
+        "message",
+        "type"
+      ]
+    }
+examples: ./.resources/Crear una notificación.resources/examples
+order: 1000

@@ -1,0 +1,33 @@
+$kind: http-request
+name: Iniciar sesión
+url: "{{baseUrl}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "ian@test.com",
+      "password": "Password123*"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@email.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "Password123*"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    }
+examples: ./.resources/Iniciar sesión.resources/examples
+order: 1000

@@ -1,0 +1,41 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/profile"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "firstName": "Ian",
+      "lastName": "Mena",
+      "email": "C0VL2UJQA@CVFRENPqdoLQdaLlxDNJmzwo.sg",
+      "phone": "string",
+      "cedula": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Ian"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Mena"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "cedula": {
+          "type": "string"
+        }
+      }
+    }
+examples: ./.resources/Actualizar perfil del usuario autenticado.resources/examples
+order: 1000

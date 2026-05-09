@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{baseUrl}}/notifications?isRead=true&priority=string&page=167.59425223044744&limit=167.59425223044744"
+method: GET
+headers:
+  Accept: application/json
+queryParams:
+  - key: isRead
+    value: "true"
+    description: Filtrar por estado de lectura
+    $type: boolean
+  - key: priority
+    value: string
+    description: Filtrar por prioridad
+    $type: string
+  - key: page
+    value: "167.59425223044744"
+    description: Número de página
+    $type: number
+  - key: limit
+    value: "167.59425223044744"
+    description: Cantidad de resultados
+    $type: number
+body:
+  type: text
+  content: ""
+examples: ./.resources/Obtener notificaciones del usuario.resources/examples
+order: 2000

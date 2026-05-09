@@ -1,0 +1,31 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/notifications?isRead=true&priority=string&page=167.59425223044744&limit=167.59425223044744"
+  method: GET
+  headers:
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  queryParams:
+    - key: isRead
+      value: "true"
+      description: Filtrar por estado de lectura
+    - key: priority
+      value: string
+      description: Filtrar por prioridad
+    - key: page
+      value: "167.59425223044744"
+      description: Número de página
+    - key: limit
+      value: "167.59425223044744"
+      description: Cantidad de resultados
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

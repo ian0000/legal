@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/cases/:id"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: id
+      value: string
+      description: ID del caso
+  body:
+    type: json
+    content: |-
+      {
+        "title": "string",
+        "description": "string",
+        "type": "string",
+        "principalLawyerId": "string",
+        "assignedUsers": [
+          "string",
+          "string"
+        ],
+        "status": "active",
+        "priority": "string",
+        "estimatedEndDate": "1999-02-11T05:16:49.628Z",
+        "completedAt": "2018-08-07T13:13:13.687Z",
+        "currentStageId": "string",
+        "tags": [
+          "string",
+          "string"
+        ]
+      }
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  body:
+    type: text
+    content: ""
+order: 2000

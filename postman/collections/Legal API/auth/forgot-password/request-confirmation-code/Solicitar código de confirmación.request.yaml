@@ -1,0 +1,25 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/request-confirmation-code"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "string"
+    }
+  $type: |-
+    {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    }
+examples: ./.resources/Solicitar código de confirmación.resources/examples
+order: 1000

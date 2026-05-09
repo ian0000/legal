@@ -1,0 +1,235 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/case-payments/case/:caseId"
+  method: GET
+  headers:
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: caseId
+      value: string
+      description: ID del caso
+  body:
+    type: text
+    content: ""
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": false,
+        "payments": [
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "amount": 1500,
+            "type": "income",
+            "category": "Honorarios",
+            "method": "transfer",
+            "status": "completed",
+            "description": "string",
+            "reference": "TRX-001",
+            "attachments": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "paymentDate": "1962-01-12T17:09:33.250Z",
+            "registeredBy": "681d0f8f8d7c4b0012f34abc",
+            "updatedBy": "681d0f8f8d7c4b0012f34abc",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "affectsGlobalFinance": true,
+            "financeTransactionId": "681d0f8f8d7c4b0012f34abc",
+            "isDeleted": false,
+            "deletedAt": "1946-09-01T23:52:14.074Z",
+            "createdAt": "2001-02-11T09:27:25.823Z",
+            "updatedAt": "1980-05-25T08:33:35.920Z"
+          },
+          {
+            "_id": "681d0f8f8d7c4b0012f34abc",
+            "caseId": "681d0f8f8d7c4b0012f34abc",
+            "amount": 1500,
+            "type": "income",
+            "category": "Honorarios",
+            "method": "transfer",
+            "status": "completed",
+            "description": "string",
+            "reference": "TRX-001",
+            "attachments": [
+              "681d0f8f8d7c4b0012f34abc",
+              "681d0f8f8d7c4b0012f34abc"
+            ],
+            "paymentDate": "1968-08-05T07:51:10.469Z",
+            "registeredBy": "681d0f8f8d7c4b0012f34abc",
+            "updatedBy": "681d0f8f8d7c4b0012f34abc",
+            "deletedBy": "681d0f8f8d7c4b0012f34abc",
+            "affectsGlobalFinance": true,
+            "financeTransactionId": "681d0f8f8d7c4b0012f34abc",
+            "isDeleted": false,
+            "deletedAt": "1957-12-13T12:12:28.053Z",
+            "createdAt": "1974-07-25T20:30:03.767Z",
+            "updatedAt": "1986-07-15T14:57:45.987Z"
+          }
+        ],
+        "pagination": {
+          "total": 100,
+          "page": 1,
+          "limit": 10,
+          "totalPages": 10
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "payments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "caseId": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "amount": {
+                  "type": "number",
+                  "example": 1500
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "income",
+                    "expense"
+                  ],
+                  "example": "income"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Honorarios"
+                },
+                "method": {
+                  "type": "string",
+                  "enum": [
+                    "cash",
+                    "transfer",
+                    "card",
+                    "check",
+                    "other"
+                  ],
+                  "example": "transfer"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "completed",
+                    "cancelled"
+                  ],
+                  "example": "completed"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "reference": {
+                  "type": "string",
+                  "example": "TRX-001"
+                },
+                "attachments": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                },
+                "paymentDate": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "registeredBy": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                },
+                "updatedBy": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "deletedBy": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "affectsGlobalFinance": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "financeTransactionId": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "example": "681d0f8f8d7c4b0012f34abc"
+                    }
+                  ]
+                },
+                "isDeleted": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number",
+                "example": 100
+              },
+              "page": {
+                "type": "number",
+                "example": 1
+              },
+              "limit": {
+                "type": "number",
+                "example": 10
+              },
+              "totalPages": {
+                "type": "number",
+                "example": 10
+              }
+            }
+          }
+        }
+      }
+order: 1000

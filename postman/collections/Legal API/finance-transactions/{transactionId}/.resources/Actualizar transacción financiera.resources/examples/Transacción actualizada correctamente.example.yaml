@@ -1,0 +1,198 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/finance-transactions/:transactionId"
+  method: PUT
+  headers:
+    - key: Content-Type
+      value: application/json
+    - key: Accept
+      value: application/json
+    - key: Authorization
+      value: Bearer <token>
+      description: "Added as a part of security scheme: bearer"
+  pathVariables:
+    - key: transactionId
+      value: string
+      description: ID de la transacción
+  body:
+    type: json
+    content: |-
+      {
+        "title": "string",
+        "description": "string",
+        "amount": 5623.636324618034,
+        "type": "income",
+        "category": "string",
+        "method": "transfer",
+        "status": "completed",
+        "reference": "string",
+        "attachments": [
+          "string",
+          "string"
+        ],
+        "transactionDate": "1975-04-28T11:48:55.171Z"
+      }
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+        "success": true,
+        "transaction": {
+          "_id": "681d0f8f8d7c4b0012f34abc",
+          "title": "Pago de honorarios",
+          "description": "string",
+          "amount": 1200,
+          "type": "income",
+          "category": "Honorarios",
+          "method": "transfer",
+          "status": "completed",
+          "reference": "string",
+          "attachments": [
+            "681d0f8f8d7c4b0012f34abc",
+            "681d0f8f8d7c4b0012f34abc"
+          ],
+          "transactionDate": "1979-11-12T20:28:56.878Z",
+          "registeredBy": "681d0f8f8d7c4b0012f34abc",
+          "updatedBy": "681d0f8f8d7c4b0012f34abc",
+          "deletedBy": "681d0f8f8d7c4b0012f34abc",
+          "relatedCaseId": "681d0f8f8d7c4b0012f34abc",
+          "sourceType": "manual",
+          "isDeleted": false,
+          "deletedAt": "2004-03-24T12:26:50.106Z",
+          "createdAt": "1980-03-20T03:30:17.473Z",
+          "updatedAt": "1992-05-20T05:47:24.523Z"
+        }
+      }
+    $type: |-
+      {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "transaction": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "title": {
+                "type": "string",
+                "example": "Pago de honorarios"
+              },
+              "description": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number",
+                "example": 1200
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "income",
+                  "expense"
+                ],
+                "example": "income"
+              },
+              "category": {
+                "type": "string",
+                "example": "Honorarios"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "cash",
+                  "transfer",
+                  "card",
+                  "check",
+                  "other"
+                ],
+                "example": "transfer"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "completed",
+                  "cancelled"
+                ],
+                "example": "completed"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "attachments": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "example": "681d0f8f8d7c4b0012f34abc"
+                }
+              },
+              "transactionDate": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "registeredBy": {
+                "type": "string",
+                "example": "681d0f8f8d7c4b0012f34abc"
+              },
+              "updatedBy": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "deletedBy": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "relatedCaseId": {
+                "allOf": [
+                  {
+                    "type": "string",
+                    "example": "681d0f8f8d7c4b0012f34abc"
+                  }
+                ]
+              },
+              "sourceType": {
+                "type": "string",
+                "enum": [
+                  "manual",
+                  "case_payment"
+                ],
+                "example": "manual"
+              },
+              "isDeleted": {
+                "type": "boolean",
+                "example": false
+              },
+              "deletedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        }
+      }
+order: 1000
