@@ -12,7 +12,25 @@ const auth_user_routes_1 = __importDefault(require("./modules/auth/auth.user.rou
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_1 = require("./config/swagger");
 exports.app = (0, express_1.default)();
-exports.app.use("/api/docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec));
+exports.app.use("/api/docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.swaggerSpec, {
+    explorer: true,
+    customSiteTitle: "Legal API Docs",
+    swaggerOptions: {
+        url: "/api/docs.json",
+    },
+    customCss: `
+      .topbar-wrapper::after {
+        content: 'OpenAPI JSON: /api/docs.json';
+        color: white;
+        margin-left: 20px;
+        font-size: 14px;
+      }
+    `,
+}));
+exports.app.get("/api/docs.json", (_, res) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(swagger_1.swaggerSpec);
+});
 exports.app.use((0, cors_1.default)({ origin: "http://localhost:5173", credentials: true }));
 exports.app.use((0, helmet_1.default)());
 exports.app.use(express_1.default.json());

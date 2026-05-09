@@ -55,7 +55,8 @@ const UserSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        required: true,
+        select: false,
+        default: null,
     },
     phone: {
         type: String,
@@ -79,7 +80,19 @@ const UserSchema = new mongoose_1.Schema({
         default: true,
     },
     profileImage: {
-        type: String,
+        data: {
+            type: Buffer,
+        },
+        contentType: {
+            type: String,
+        },
+        filename: {
+            type: String,
+        },
+        uploadedAt: {
+            type: Date,
+            default: Date.now,
+        },
     },
     permissions: [
         {

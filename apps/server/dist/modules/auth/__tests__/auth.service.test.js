@@ -110,15 +110,17 @@ describe("Auth Service", () => {
     // =====================================
     describe("login", () => {
         it("should login correctly", async () => {
-            User_1.default.findOne.mockResolvedValue({
-                _id: "1",
-                firstName: "Ian",
-                lastName: "Mena",
-                email: "test@test.com",
-                password: "hashed",
-                isConfirmed: true,
-                isActive: true,
-                role: "LAWYER",
+            User_1.default.findOne.mockReturnValue({
+                select: jest.fn().mockResolvedValue({
+                    _id: "1",
+                    firstName: "Ian",
+                    lastName: "Mena",
+                    email: "test@test.com",
+                    password: "hashed",
+                    isConfirmed: true,
+                    isActive: true,
+                    role: "LAWYER",
+                }),
             });
             auth_1.checkPassword.mockResolvedValue(true);
             jwt_1.generateJWT.mockReturnValue("jwt");
@@ -136,10 +138,12 @@ describe("Auth Service", () => {
             });
         });
         it("should throw if password incorrect", async () => {
-            User_1.default.findOne.mockResolvedValue({
-                password: "hashed",
-                isConfirmed: true,
-                isActive: true,
+            User_1.default.findOne.mockReturnValue({
+                select: jest.fn().mockResolvedValue({
+                    password: "hashed",
+                    isConfirmed: true,
+                    isActive: true,
+                }),
             });
             auth_1.checkPassword.mockResolvedValue(false);
             await expect(authService.login("a", "b")).rejects.toThrow("Contraseña incorrecta");
@@ -175,9 +179,11 @@ describe("Auth Service", () => {
                 usedAt: null,
                 save: saveMock,
             });
-            User_1.default.findById.mockResolvedValue({
-                password: "old",
-                save: saveMock,
+            User_1.default.findById.mockReturnValue({
+                select: jest.fn().mockResolvedValue({
+                    password: "old",
+                    save: saveMock,
+                }),
             });
             auth_1.hashPassword.mockResolvedValue("new-hash");
             await authService.updatePasswordWithToken("token", "newPassword");
@@ -214,9 +220,11 @@ describe("Auth Service", () => {
     describe("updatePassword", () => {
         it("should update password", async () => {
             const saveMock = jest.fn();
-            User_1.default.findById.mockResolvedValue({
-                password: "hashed",
-                save: saveMock,
+            User_1.default.findById.mockReturnValue({
+                select: jest.fn().mockResolvedValue({
+                    password: "hashed",
+                    save: saveMock,
+                }),
             });
             auth_1.checkPassword.mockResolvedValue(true);
             auth_1.hashPassword.mockResolvedValue("new-hash");

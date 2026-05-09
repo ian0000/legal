@@ -61,7 +61,7 @@ exports.setupAccount = setupAccount;
 const login = async (email, password) => {
     const user = await User_1.default.findOne({
         email,
-    });
+    }).select("+password");
     if (!user) {
         throw (0, CreateError_1.CreateError)("Usuario no encontrado", 404);
     }
@@ -138,7 +138,7 @@ exports.forgotPassword = forgotPassword;
 // =====================================
 const updatePasswordWithToken = async (token, password) => {
     const verification = await (0, exports.validateVerificationToken)(token, tokens_1.TOKEN_TYPES.PASSWORD_RESET);
-    const user = await User_1.default.findById(verification.user);
+    const user = await User_1.default.findById(verification.user).select("+password");
     if (!user) {
         throw (0, CreateError_1.CreateError)("Usuario no encontrado", 404);
     }
@@ -185,7 +185,7 @@ exports.updateProfile = updateProfile;
 // UPDATE PASSWORD
 // =====================================
 const updatePassword = async (userId, data) => {
-    const user = await User_1.default.findById(userId);
+    const user = await User_1.default.findById(userId).select("+password");
     if (!user) {
         throw (0, CreateError_1.CreateError)("Usuario no encontrado", 404);
     }

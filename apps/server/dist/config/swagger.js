@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.swaggerSpec = void 0;
 const swagger_jsdoc_1 = __importDefault(require("swagger-jsdoc"));
 const env_1 = require("./env");
+const swagger_schemas_1 = require("./swagger.schemas");
 const options = {
     definition: {
         openapi: "3.0.0",
@@ -27,9 +28,15 @@ const options = {
                     bearerFormat: "JWT",
                 },
             },
+            schemas: swagger_schemas_1.swaggerSchemas,
         },
+        security: [
+            {
+                BearerAuth: [],
+            },
+        ],
     },
-    apis: ["./src/modules/**/*.ts"], // busca comentarios swagger en módulos
+    apis: ["./src/modules/**/*.ts"],
 };
 exports.swaggerSpec = (0, swagger_jsdoc_1.default)(options);
 //# sourceMappingURL=swagger.js.map
