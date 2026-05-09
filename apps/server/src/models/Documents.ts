@@ -15,14 +15,30 @@ export interface Document {
 
   size: number;
 
-  url: string;
+  file: Buffer;
 
   visibility: string;
+
+  documentType?: string;
 
   tags?: string[];
 
   version?: number;
+
+  uploadedAt?: Date;
+
+  isDeleted: boolean;
+
+  deletedAt?: Date;
 }
+
+// =====================================
+// DTOs
+// =====================================
+
+// =====================================
+// SCHEMA
+// =====================================
 
 const DocumentSchema = new Schema<Document>(
   {
@@ -30,27 +46,32 @@ const DocumentSchema = new Schema<Document>(
       type: Schema.Types.ObjectId,
       ref: "Case",
       required: true,
+      index: true,
     },
 
     uploadedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     stageId: {
       type: Schema.Types.ObjectId,
       ref: "CaseStage",
+      index: true,
     },
 
     name: {
       type: String,
       required: true,
+      trim: true,
     },
 
     originalName: {
       type: String,
       required: true,
+      trim: true,
     },
 
     mimeType: {
@@ -63,14 +84,18 @@ const DocumentSchema = new Schema<Document>(
       required: true,
     },
 
-    url: {
-      type: String,
+    file: {
+      type: Buffer,
       required: true,
     },
 
     visibility: {
       type: String,
       default: "internal",
+    },
+
+    documentType: {
+      type: String,
     },
 
     tags: [
@@ -83,11 +108,34 @@ const DocumentSchema = new Schema<Document>(
       type: Number,
       default: 1,
     },
+
+    uploadedAt: {
+      type: Date,
+      default: Date.now,
+    },
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,
   },
 );
+
+DocumentSchema.index({
+  caseId: 1,
+  stageId: 1,
+  uploadedBy: 1,
+  isDeleted: 1,
+});
 
 const Document = mongoose.model<Document>("Document", DocumentSchema);
 

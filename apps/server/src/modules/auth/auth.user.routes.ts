@@ -3,7 +3,7 @@ import { Router } from "express";
 import * as AuthController from "./auth.user.controller";
 
 import { authenticate } from "../../middlewares/authenticate";
-
+import { upload } from "../../middlewares/upload";
 const router = Router();
 
 /**
@@ -33,5 +33,12 @@ router.use(authenticate);
 router.put("/profile", AuthController.updateProfile);
 
 router.put("/update-password", AuthController.updatePassword);
+
+router.put(
+  "/profile-image",
+  authenticate,
+  upload.single("image"),
+  AuthController.updateProfileImage,
+);
 
 export default router;

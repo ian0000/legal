@@ -1,4 +1,4 @@
-import { TOKEN_TYPES } from "@legal/shared/src/types/roles";
+import { TOKEN_TYPES } from "@legal/shared/src/types/tokens";
 import mongoose, { Schema, Types } from "mongoose";
 
 export interface IVerificationToken {

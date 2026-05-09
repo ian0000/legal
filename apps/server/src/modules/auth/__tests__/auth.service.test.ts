@@ -136,6 +136,8 @@ describe("Auth Service", () => {
           lastName: "Mena",
           email: "test@test.com",
           role: "LAWYER",
+
+          profileImageUrl: null,
         },
       });
     });

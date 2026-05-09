@@ -17,35 +17,16 @@ export interface User {
   isConfirmed: boolean;
   isActive: boolean;
 
-  profileImage?: string;
+  profileImage?: {
+    data: Buffer;
+    contentType: string;
+    filename?: string;
+    uploadedAt?: Date;
+  };
 
   permissions?: string[];
 
   createdBy?: Types.ObjectId;
-}
-
-export interface CreateUserDTO {
-  firstName: string;
-  lastName: string;
-
-  email: string;
-
-  role?: UserRole;
-}
-
-export interface UpdateUserDTO {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  phone?: string;
-  cedula?: string;
-
-  profileImage?: string;
-}
-
-export interface UpdatePasswordDTO {
-  currentPassword: string;
-  newPassword: string;
 }
 
 const UserSchema = new Schema<User>(
@@ -120,8 +101,6 @@ const UserSchema = new Schema<User>(
     timestamps: true,
   },
 );
-
-UserSchema.index({ email: 1 });
 
 const User = mongoose.model<User>("User", UserSchema);
 

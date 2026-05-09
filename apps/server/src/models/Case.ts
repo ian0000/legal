@@ -1,73 +1,10 @@
-import { CASE_STATUS, CaseStatus } from "@legal/shared/src/types/roles";
+import { CASE_STATUS, CaseStatus } from "@legal/shared/src/types/cases";
 import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 // src/modules/cases/dto/create-case.dto.ts
 
-export interface CreateCaseDTO {
-  code: string;
-
-  title: string;
-
-  description?: string;
-
-  type?: string;
-
-  clientId: string;
-
-  principalLawyerId: string;
-
-  assignedUsers?: string[];
-
-  priority?: string;
-
-  startDate?: Date;
-
-  estimatedEndDate?: Date;
-
-  tags?: string[];
-
-  createdBy: string;
-}
 // src/modules/cases/dto/update-case.dto.ts
 
-export interface UpdateCaseDTO {
-  title?: string;
-
-  description?: string;
-
-  type?: string;
-
-  principalLawyerId?: string;
-
-  assignedUsers?: string[];
-
-  status?: string;
-
-  priority?: string;
-
-  estimatedEndDate?: Date;
-
-  completedAt?: Date;
-
-  currentStageId?: string;
-
-  tags?: string[];
-}
 // src/modules/cases/dto/get-cases.dto.ts
-export interface GetCasesDTO {
-  status?: string;
-
-  clientId?: string;
-
-  principalLawyerId?: string;
-
-  priority?: string;
-
-  search?: string;
-
-  page?: number;
-
-  limit?: number;
-}
 export interface Case {
   code: string;
 

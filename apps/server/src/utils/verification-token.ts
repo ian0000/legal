@@ -5,7 +5,7 @@ import Token from "../models/Token";
 import { generateToken } from "./token";
 
 import { CreateError } from "./CreateError";
-import { TOKEN_TYPES } from "@legal/shared/src/types/roles";
+import { TOKEN_TYPES } from "@legal/shared/src/types/tokens";
 
 export const createVerificationToken = async (userId: string, type: TOKEN_TYPES) => {
   await Token.deleteMany({

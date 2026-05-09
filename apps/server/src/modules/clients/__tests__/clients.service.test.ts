@@ -7,7 +7,7 @@ import * as clientService from "../clients.service";
 import { createVerificationToken } from "../../../utils/verification-token";
 
 import { AuthEmail } from "../../auth/auth.email.service";
-import { CASE_STATUS } from "@legal/shared/src/types/roles";
+import { CASE_STATUS } from "@legal/shared/src/types/cases";
 
 jest.mock("../../../models/Client");
 jest.mock("../../../models/User");

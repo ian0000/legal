@@ -1,5 +1,4 @@
 import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
-
 export interface Note {
   caseId: Types.ObjectId;
 
@@ -12,6 +11,10 @@ export interface Note {
   visibleToClient: boolean;
 
   attachments?: string[];
+
+  isDeleted: boolean;
+
+  deletedAt?: Date;
 }
 
 const NoteSchema = new Schema<Note>(
@@ -26,17 +29,20 @@ const NoteSchema = new Schema<Note>(
     stageId: {
       type: Schema.Types.ObjectId,
       ref: "CaseStage",
+      index: true,
     },
 
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     content: {
       type: String,
       required: true,
+      trim: true,
     },
 
     visibleToClient: {
@@ -49,11 +55,27 @@ const NoteSchema = new Schema<Note>(
         type: String,
       },
     ],
+
+    isDeleted: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+
+    deletedAt: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
   },
 );
+
+NoteSchema.index({
+  caseId: 1,
+  stageId: 1,
+  createdAt: -1,
+});
 
 const Note = mongoose.model<Note>("Note", NoteSchema);
 

@@ -118,3 +118,29 @@ export const updatePassword = async (req: Request, res: Response, next: NextFunc
     next(error);
   }
 };
+
+export const updateProfileImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (!req.file) {
+      throw new AppError("Imagen requerida", 400);
+    }
+
+    const result = await authService.updateProfileImage(req.user!.id, req.file);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProfileImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const image = await authService.getProfileImage(req.params.userId as string);
+
+    res.set("Content-Type", image.contentType);
+
+    res.send(image.data);
+  } catch (error) {
+    next(error);
+  }
+};

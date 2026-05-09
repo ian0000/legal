@@ -3,13 +3,22 @@
 // =====================================
 
 import mongoose from "mongoose";
-import Client, { CreateClientDTO, GetClientsQueryDTO, UpdateClientDTO } from "../../models/Client";
+
+import Client from "../../models/Client";
+
+import type {
+  CreateClientDTO,
+  GetClientsQueryDTO,
+  UpdateClientDTO,
+} from "@legal/shared/src/schemas/clients.schema";
 import { CreateError } from "../../utils/CreateError";
 import Case from "../../models/Case";
-import { CASE_STATUS, TOKEN_TYPES, USER_ROLES } from "@legal/shared/src/types/roles";
+import { CASE_STATUS } from "@legal/shared/src/types/cases";
 import User from "../../models/User";
 import { createVerificationToken } from "../../utils/verification-token";
 import { AuthEmail } from "../auth/auth.email.service";
+import { USER_ROLES } from "@legal/shared/src/types/roles";
+import { TOKEN_TYPES } from "@legal/shared/src/types/tokens";
 
 export const createClient = async (data: CreateClientDTO, createdBy: string) => {
   const existingClient = await Client.findOne({

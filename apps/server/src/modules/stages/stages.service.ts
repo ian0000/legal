@@ -1,19 +1,25 @@
 // =====================================
 // CREATE STAGE
 // =====================================
-
 import mongoose from "mongoose";
-import CaseStage, {
+
+import CaseStage from "../../models/Stage";
+import Case from "../../models/Case";
+
+import { CreateError } from "../../utils/CreateError";
+
+import { createActivity } from "../activities/activities.service";
+
+import {
   AssignCaseStageDTO,
   CreateCaseStageDTO,
   ReorderCaseStageDTO,
   UpdateCaseStageDTO,
   UpdateCaseStageStatusDTO,
-} from "../../models/Stage";
-import { CreateError } from "../../utils/CreateError";
-import Case, { UpdateCaseDTO } from "../../models/Case";
-import { CASE_STAGE_STATUS } from "@legal/shared/src/types/roles";
-import Activity from "../../models/Activities";
+} from "@legal/shared/src/schemas/stages.schema";
+
+import { CASE_STAGE_STATUS } from "@legal/shared/src/types/cases";
+import { ACTIVITY_ACTIONS } from "@legal/shared/src/types/activities";
 
 export const createStage = async (userId: string, data: CreateCaseStageDTO) => {
   const existingCase = await Case.findById(data.caseId);
@@ -62,14 +68,21 @@ export const createStage = async (userId: string, data: CreateCaseStageDTO) => {
 
     await existingCase.save();
   }
-
-  await createActivity(
+  await createActivity({
     userId,
-    "CASE_STAGE_CREATED",
-    data.caseId,
-    stage._id.toString(),
-    `Etapa creada: ${stage.title}`,
-  );
+
+    caseId: stage.caseId.toString(),
+
+    stageId: stage._id.toString(),
+
+    action: ACTIVITY_ACTIONS.STAGE_CREATED,
+
+    description: `Etapa creada: ${stage.title}`,
+
+    metadata: {
+      assignedTo: data.assignedTo,
+    },
+  });
 
   return stage;
 };
@@ -126,7 +139,7 @@ export const updateStage = async (stageId: string, data: UpdateCaseStageDTO) => 
   Object.assign(stage, data);
 
   if (data.assignedTo) {
-    stage.assignedBy = new mongoose.Types.ObjectId(stage.assignedBy);
+    stage.assignedTo = new mongoose.Types.ObjectId(data.assignedTo);
   }
 
   await stage.save();
@@ -204,13 +217,17 @@ export const updateStageStatus = async (
 
   await stage.save();
 
-  await createActivity(
+  await createActivity({
     userId,
-    "CASE_STAGE_STATUS_UPDATED",
-    stage.caseId.toString(),
-    stage._id.toString(),
-    `Estado actualizado a ${data.status}`,
-  );
+
+    caseId: String(stage.caseId),
+
+    stageId: String(stage._id),
+
+    action: ACTIVITY_ACTIONS.STAGE_UPDATED,
+
+    description: `Estado actualizado a ${data.status}`,
+  });
 
   return stage;
 };
@@ -234,13 +251,21 @@ export const assignStage = async (userId: string, stageId: string, data: AssignC
 
   await stage.save();
 
-  await createActivity(
-    userId,
-    "CASE_STAGE_ASSIGNED",
-    stage.caseId.toString(),
-    stage._id.toString(),
-    "Etapa asignada",
-  );
+  await createActivity({
+    userId: userId.toString(),
+
+    caseId: stage.caseId.toString(),
+
+    stageId: stage._id.toString(),
+
+    action: ACTIVITY_ACTIONS.STAGE_ASSIGNED,
+
+    description: "Etapa asignada",
+
+    metadata: {
+      assignedTo: data.assignedTo,
+    },
+  });
 
   return stage;
 };
@@ -263,20 +288,4 @@ export const reorderStage = async (stageId: string, data: ReorderCaseStageDTO) =
   await stage.save();
 
   return stage;
-};
-
-const createActivity = async (
-  userId: string,
-  action: string,
-  caseId: string,
-  stageId: string,
-  description: string,
-) => {
-  await Activity.create({
-    userId,
-    action,
-    caseId,
-    stageId,
-    description,
-  });
 };

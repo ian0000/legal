@@ -1,56 +1,5 @@
-import { CASE_STAGE_STATUS, CaseStageStatus } from "@legal/shared/src/types/roles";
+import { CASE_STAGE_STATUS, CaseStageStatus } from "@legal/shared/src/types/cases";
 import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
-export interface CreateCaseStageDTO {
-  caseId: string;
-
-  title: string;
-
-  description?: string;
-
-  assignedTo?: string;
-
-  priority?: string;
-
-  estimatedDays?: number;
-
-  dueDate?: Date;
-
-  dependsOn?: string[];
-
-  isFinalStage?: boolean;
-}
-
-export interface UpdateCaseStageDTO {
-  title?: string;
-
-  description?: string;
-
-  assignedTo?: string;
-
-  priority?: string;
-
-  estimatedDays?: number;
-
-  dueDate?: Date;
-
-  dependsOn?: string[];
-
-  isFinalStage?: boolean;
-}
-
-export interface UpdateCaseStageStatusDTO {
-  status: CaseStageStatus;
-
-  delayReason?: string;
-}
-
-export interface AssignCaseStageDTO {
-  assignedTo: string;
-}
-
-export interface ReorderCaseStageDTO {
-  order: number;
-}
 export interface CaseStage {
   caseId: Types.ObjectId;
 

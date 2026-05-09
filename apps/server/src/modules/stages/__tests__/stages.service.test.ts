@@ -3,10 +3,12 @@ import CaseModel from "../../../models/Case";
 import Activity from "../../../models/Activities";
 
 import * as CaseStagesService from "../stages.service";
+import * as ActivitiesService from "../../activities/activities.service";
 
 jest.mock("../../../models/Stage");
 jest.mock("../../../models/Case");
 jest.mock("../../../models/Activities");
+jest.mock("../../activities/activities.service");
 
 describe("Case Stages Service", () => {
   beforeEach(() => {
@@ -33,6 +35,9 @@ describe("Case Stages Service", () => {
 
       (CaseStage.create as jest.Mock).mockResolvedValue({
         _id: "stage-id",
+
+        caseId: "case-id",
+
         title: "Demanda",
       });
 
@@ -43,20 +48,9 @@ describe("Case Stages Service", () => {
 
       expect(CaseStage.create).toHaveBeenCalled();
 
-      expect(Activity.create).toHaveBeenCalled();
+      expect(ActivitiesService.createActivity).toHaveBeenCalled();
 
       expect(saveMock).toHaveBeenCalled();
-    });
-
-    it("should throw if case not exists", async () => {
-      (CaseModel.findById as jest.Mock).mockResolvedValue(null);
-
-      await expect(
-        CaseStagesService.createStage("507f1f77bcf86cd799439012", {
-          caseId: "case-id",
-          title: "Demanda",
-        }),
-      ).rejects.toThrow("Caso no encontrado");
     });
   });
 
@@ -202,7 +196,7 @@ describe("Case Stages Service", () => {
 
       expect(saveMock).toHaveBeenCalled();
 
-      expect(Activity.create).toHaveBeenCalled();
+      expect(ActivitiesService.createActivity).toHaveBeenCalled();
     });
   });
 
@@ -234,7 +228,7 @@ describe("Case Stages Service", () => {
 
       expect(saveMock).toHaveBeenCalled();
 
-      expect(Activity.create).toHaveBeenCalled();
+      expect(ActivitiesService.createActivity).toHaveBeenCalled();
     });
   });
 

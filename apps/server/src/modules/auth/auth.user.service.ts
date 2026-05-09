@@ -12,7 +12,7 @@ import {
 } from "../../utils/verification-token";
 
 import { generateJWT } from "../../utils/jwt";
-import { TOKEN_TYPES } from "@legal/shared/src/types/roles";
+import { TOKEN_TYPES } from "@legal/shared/src/types/tokens";
 
 interface CreateAccountInput {
   email: string;
@@ -139,6 +139,8 @@ export const login = async (email: string, password: string) => {
       email: user.email,
 
       role: user.role,
+
+      profileImageUrl: user.profileImage ? `/auth/profile-image/${user._id}` : null,
     },
   };
 };
@@ -292,6 +294,39 @@ export const updatePassword = async (userId: string, data: UpdatePasswordInput) 
   user.password = await hashPassword(data.newPassword);
 
   await user.save();
+};
+
+export const updateProfileImage = async (userId: string, file: Express.Multer.File) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw CreateError("Usuario no encontrado", 404);
+  }
+
+  user.profileImage = {
+    data: file.buffer,
+
+    contentType: file.mimetype,
+
+    filename: file.originalname,
+
+    uploadedAt: new Date(),
+  };
+
+  await user.save();
+
+  return {
+    message: "Imagen actualizada correctamente",
+  };
+};
+export const getProfileImage = async (userId: string) => {
+  const user = await User.findById(userId);
+
+  if (!user || !user.profileImage) {
+    throw CreateError("Imagen no encontrada", 404);
+  }
+
+  return user.profileImage;
 };
 export const validateVerificationTokenService = async (token: string, type: TOKEN_TYPES) => {
   return await validateVerificationTokenUtil(token, type);

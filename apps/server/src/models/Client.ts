@@ -96,53 +96,6 @@ const ClientSchema = new Schema<Client>(
     timestamps: true,
   },
 );
-export interface CreateClientDTO {
-  firstName: string;
-
-  lastName: string;
-
-  cedula: string;
-
-  email: string;
-
-  phone?: string;
-
-  address?: string;
-
-  notes?: string;
-
-  userId?: string;
-}
-
-export interface UpdateClientDTO {
-  firstName?: string;
-
-  lastName?: string;
-
-  cedula?: string;
-
-  email?: string;
-
-  phone?: string;
-
-  address?: string;
-
-  notes?: string;
-
-  userId?: string;
-
-  isActive?: boolean;
-}
-
-export interface GetClientsQueryDTO {
-  search?: string;
-
-  page?: number;
-
-  limit?: number;
-
-  isActive?: boolean;
-}
 /**
  * Búsqueda rápida
  */

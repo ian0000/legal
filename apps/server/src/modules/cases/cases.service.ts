@@ -2,11 +2,18 @@
 // CREATE CASE
 // =====================================
 
-import Activity from "../../models/Activities";
-import Case, { CreateCaseDTO, GetCasesDTO, UpdateCaseDTO } from "../../models/Case";
+import { ACTIVITY_ACTIONS } from "@legal/shared/src/types/activities";
+import Case from "../../models/Case";
+
+import type {
+  CreateCaseDTO,
+  GetCasesDTO,
+  UpdateCaseDTO,
+} from "@legal/shared/src/schemas/cases.schema";
 import Client from "../../models/Client";
 import User from "../../models/User";
 import { CreateError } from "../../utils/CreateError";
+import { createActivity } from "../activities/activities.service";
 
 export const createCase = async (data: CreateCaseDTO) => {
   if (!data.code?.trim()) {
@@ -78,13 +85,11 @@ export const createCase = async (data: CreateCaseDTO) => {
 
     tags: data.tags || [],
   });
-
-  await Activity.create({
+  await createActivity({
     userId: data.createdBy,
+    caseId: newCase._id.toString(),
 
-    caseId: newCase._id,
-
-    action: "CASE_CREATED",
+    action: ACTIVITY_ACTIONS.CASE_CREATED,
 
     description: `Caso ${newCase.code} creado`,
   });
@@ -212,23 +217,23 @@ export const updateCase = async (caseId: string, data: UpdateCaseDTO) => {
 
   await legalCase.save();
 
-  await Activity.create({
-    userId: legalCase.createdBy,
+  await createActivity({
+    userId: String(legalCase.createdBy),
 
-    caseId: legalCase._id,
+    caseId: String(legalCase._id),
 
-    action: "CASE_UPDATED",
+    action: ACTIVITY_ACTIONS.CASE_STATUS_CHANGED,
 
-    description: `Caso actualizado`,
+    description: `Estado cambiado a ${data.status}`,
   });
 
   if (data.status && data.status !== previousStatus) {
-    await Activity.create({
-      userId: legalCase.createdBy,
+    await createActivity({
+      userId: String(legalCase.createdBy),
 
-      caseId: legalCase._id,
+      caseId: String(legalCase._id),
 
-      action: "CASE_STATUS_CHANGED",
+      action: ACTIVITY_ACTIONS.CASE_STATUS_CHANGED,
 
       description: `Estado cambiado a ${data.status}`,
     });
@@ -257,13 +262,11 @@ export const deleteCase = async (caseId: string, deletedBy: string) => {
   legalCase.deletedBy = deletedBy as any;
 
   await legalCase.save();
-
-  await Activity.create({
+  await createActivity({
     userId: deletedBy,
+    caseId: legalCase._id.toString(),
 
-    caseId: legalCase._id,
-
-    action: "CASE_DELETED",
+    action: ACTIVITY_ACTIONS.CASE_DELETED,
 
     description: `Caso ${legalCase.code} eliminado`,
   });
